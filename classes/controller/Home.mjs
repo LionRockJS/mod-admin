@@ -1,18 +1,18 @@
-const { ControllerMixinDatabase, ORM, KohanaJS } = require('kohanajs');
+import { ControllerMixinDatabase, ORM, Central } from '@lionrockjs/central';
+import { ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
+import ControllerTemplate from '../ControllerTemplate.mjs';
 
-const ControllerTemplate = require('../ControllerTemplate');
-
-const User = ORM.require('User');
-const Role = ORM.require('Role');
-
-class ControllerHome extends ControllerTemplate{
-  static mixins = [...ControllerTemplate.mixins, ControllerMixinDatabase]
+export default class ControllerHome extends ControllerTemplate{
+  static mixins = [
+    ...ControllerTemplate.mixins,
+    ControllerMixinDatabase
+  ]
 
   constructor(request) {
     super(request, 'home');
 
     this.state.get(ControllerMixinDatabase.DATABASE_MAP)
-      .set('admin', `${KohanaJS.config.auth.databasePath}/admin.sqlite`);
+      .set('admin', `${Central.config.auth.databasePath}/admin.sqlite`);
   }
 
   async action_index() {
@@ -24,4 +24,4 @@ class ControllerHome extends ControllerTemplate{
   }
 }
 
-module.exports = ControllerHome;
+

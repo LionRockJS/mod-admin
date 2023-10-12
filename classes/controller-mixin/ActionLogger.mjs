@@ -1,20 +1,19 @@
-const {ControllerMixin} = require("@kohanajs/core-mvc");
-const {KohanaJS} = require('kohanajs');
-const fs = require('fs');
+import fs from 'node:fs';
+import { Central } from '@lionrockjs/central';
+import { Controller, ControllerMixin } from '@lionrockjs/mvc';
 
-class ActionLogger extends ControllerMixin{
+export default class ActionLogger extends ControllerMixin{
     static LOG_ACTIONS = 'logActions';
 
     static init(state){
-        state.set(this.LOG_ACTIONS, state.get(this.LOG_ACTIONS) || new Set(['update', 'edit', 'delete']));
+      if(!state.get(this.LOG_ACTIONS)) state.set(this.LOG_ACTIONS, new Set(['update', 'edit', 'delete']));
     }
 
     //log need to read session, it create in mixinSession.before()
     static async before(state){
-      const client = state.get(ControllerMixin.CLIENT);
       const logActions = state.get(this.LOG_ACTIONS);
-      const request = client.request;
-      const action = request.params.action;
+      const request = state.get(Controller.STATE_REQUEST);
+      const { action } = state.get(Controller.STATE_PARAMS);
 
       if(logActions.has(action)){
         const now = new Date();
@@ -25,7 +24,7 @@ class ActionLogger extends ControllerMixin{
         const MM    = String( now.getMinutes() ).padStart(2,'0');
         const SS    = String( now.getSeconds() ).padStart(2, '0');
 
-        const logDir = `${KohanaJS.config.admin.logPath}/${YYYY}/${MONTH}/`;
+        const logDir = `${Central.config.admin.logPath}/${YYYY}/${MONTH}/`;
         const file   = `${logDir}/${DATE}.admin.log`;
 
         //create folder if not exist

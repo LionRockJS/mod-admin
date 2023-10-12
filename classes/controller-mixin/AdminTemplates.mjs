@@ -1,14 +1,14 @@
-const querystring = require('querystring');
-const pluralize = require('pluralize');
-const camelize = require('camelize');
-const { ControllerMixin } = require('@kohanajs/core-mvc');
-const { ORM, ControllerMixinView, ControllerMixinDatabase } = require('kohanajs');
-const { ControllerMixinORMRead, ControllerMixinORMDelete } = require('@kohanajs/mixin-orm');
+import querystring from "node:querystring";
+import pluralize from "pluralize";
+import camelize from "camelize";
+import decamelize from "decamelize";
 
-const Login = ORM.require('Login');
-const User = ORM.require('User');
+import { ORM, ControllerMixinView, ControllerMixinDatabase } from '@lionrockjs/central';
+import { ControllerMixinORMRead, ControllerMixinORMDelete } from '@lionrockjs/mixin-orm';
+import { Controller, ControllerMixin } from '@lionrockjs/mvc';
+import { ModelUser as User, ModelLogin as Login } from '@lionrockjs/mod-auth';
 
-class ControllerMixinAdminTemplates extends ControllerMixin {
+export default class ControllerMixinAdminTemplates extends ControllerMixin {
   static ADMIN_DATABASE_KEY = 'adminDBKey';
 
   static PATH_PREFIX = 'pathPrefix';
@@ -22,10 +22,10 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
   static TEMPLATES = 'templates';
 
   static init(state) {
-    state.set(this.PATH_PREFIX, state.get(this.PATH_PREFIX) || 'admin/');
-    state.set(this.ADMIN_DATABASE_KEY, state.get(this.ADMIN_DATABASE_KEY) || 'admin');
-    state.set(this.PAGE_SIZE, state.get(this.PAGE_SIZE) || 50);
-    state.set(this.TEMPLATES, state.get(this.TEMPLATES) || new Map([
+    if(!state.get(this.PATH_PREFIX)) state.set(this.PATH_PREFIX, 'admin/');
+    if(!state.get(this.ADMIN_DATABASE_KEY)) state.set(this.ADMIN_DATABASE_KEY, 'admin');
+    if(!state.get(this.PAGE_SIZE)) state.set(this.PAGE_SIZE, 50);
+    if(!state.get(this.TEMPLATES)) state.set(this.TEMPLATES, new Map([
       ['index', 'templates/admin/index'],
       ['read', 'templates/admin/edit'],
       ['edit', 'templates/admin/edit'],
@@ -33,7 +33,7 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
       ['dialog', 'templates/admin/dialog'],
     ]));
 
-    const client = state.get(ControllerMixin.CLIENT);
+    const client = state.get(Controller.STATE_CLIENT);
     client.listView = client.listView || (async template => {
       await this.listView(state, template);
     });
@@ -48,9 +48,8 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
   }
 
   static async listView(state, template) {
-    const client = state.get(ControllerMixin.CLIENT);
-    const { request } = client;
-    const model = this.classObject(client.model);
+    const request = state.get(Controller.STATE_REQUEST);
+    const model = this.classObject(state.get(ControllerMixinORMRead.MODEL));
 
     const page = parseInt(request.query.page ?? '1');
     const maxPage = Math.ceil(state.get(ControllerMixinORMRead.COUNT) / state.get(this.PAGE_SIZE));
@@ -66,17 +65,14 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
     };
     Object.assign(state.get(ControllerMixinView.LAYOUT).data, data);
 
-    client.setTemplate(template, data);
+    ControllerMixinView.setTemplate(template, data);
   }
 
   static async readView(state, template) {
-    const client = state.get(ControllerMixin.CLIENT);
-    const { params } = client.request;
-    const model = this.classObject(client.model);
+    const params = state.get(Controller.STATE_PARAMS);
+    const model = this.classObject(state.get(ControllerMixinORMRead.MODEL));
 
-    const { entity } = params;
-    const { entityID } = params;
-    const { id } = params;
+    const { entity, entityID, id } = params;
     const instance = state.get(ControllerMixinORMRead.INSTANCE);
 
     const templateData = await this.modelToTemplateData(state);
@@ -92,14 +88,12 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
     };
 
     state.get(ControllerMixinView.LAYOUT).data.item = instance;
-    client.setTemplate(template, data);
+    ControllerMixinView.setTemplate(template, data);
   }
 
   static entitySupport(state) {
-    const { request } = state.get(ControllerMixin.CLIENT);
-
-    const checkpoint = request.query.cp;
-    const { entity, entityID } = request.params;
+    const checkpoint = state.get(Controller.STATE_CHECKPOINT);
+    const { entity, entityID } = state.get(Controller.STATE_PARAMS);
     if (!entity) return (checkpoint) ? { destination: checkpoint } : {};
 
     const singularEntity = pluralize.singular(entity);
@@ -141,10 +135,10 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
   }
 
   static applyQueryValues(state, instance) {
-    const client = state.get(ControllerMixin.CLIENT);
-    const model = this.classObject(client.model);
+    const request = state.get(Controller.STATE_REQUEST);
+    const model = this.classObject(state.get(ControllerMixinORMRead.MODEL));
 
-    const $_GET = client.request.query || {};
+    const $_GET = request.query || {};
 
     if ($_GET.values) {
       const values = JSON.parse($_GET.values);
@@ -175,7 +169,7 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
     const items = await Promise.all(
       [...m.belongsTo].map(async x => {
         const fk = x[0];
-        const model = ORM.require(x[1]);
+        const model = await ORM.import(x[1]);
         const items = await ORM.readAll(model, { database: state.get(ControllerMixinDatabase.DATABASES).get(state.get(ControllerMixinORMRead.DATABASE_KEY)), asArray: true });
 
         return {
@@ -198,7 +192,7 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
 
     const items = await Promise.all(
       Array.from(m.belongsToMany).map(async x => {
-        const Model = ORM.require(x);
+        const Model = await ORM.import(x);
         const values = await instance.siblings(Model);
         const items = await ORM.readAll(Model, { database: state.get(ControllerMixinDatabase.DATABASES).get(state.get(ControllerMixinORMRead.DATABASE_KEY)), asArray: true });
 
@@ -224,13 +218,13 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
     const m = instance.constructor;
     if (!m.hasMany || m.hasMany.length <= 0) return;
 
-    const client = state.get(ControllerMixin.CLIENT);
-    const { id } = client.request.params;
+    const client = state.get(Controller.STATE_CLIENT);
+    const { id } = state.get(Controller.STATE_PARAMS);
 
     const items = await Promise.all(
       m.hasMany.map(async x => {
         const fk = x[0];
-        const Model = ORM.require(x[1]);
+        const Model = await ORM.import(x[1]);
         const fields = [...Model.fields].map(x => ({ name: x[0], type: x[1].replace(/!$/, ''), required: /!$/.test(x[1]) }));
         try {
           const items = await instance.children(fk, Model);
@@ -253,15 +247,14 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
   }
 
   static getDomain(state) {
-    const client = state.get(ControllerMixin.CLIENT);
     return {
-      domain: client.request.hostname,
+      domain: state.get(Controller.STATE_HOSTNAME),
     };
   }
 
   static getFormDestination(state) {
-    const client = state.get(ControllerMixin.CLIENT);
-    const $_GET = client.request.query || {};
+    const request = state.get(Controller.STATE_REQUEST);
+    const $_GET = request.query || {};
     if ($_GET.cp) {
       return {
         destination: $_GET.cp,
@@ -271,14 +264,11 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
   }
 
   static async before(state) {
-    const client = state.get(ControllerMixin.CLIENT);
-    const { model } = client;
-    const { request } = client;
+    const client = state.get(Controller.STATE_CLIENT);
+    const request = state.get(Controller.STATE_REQUEST);
     const { session } = request;
-    const {default: decamelize} = await import('decamelize');
 
     if(session.user_id && session.user_meta && !session.user_meta.full_name){
-
       const database = state.get(ControllerMixinDatabase.DATABASES).get(state.get(this.ADMIN_DATABASE_KEY));
       const user = await ORM.factory(User, session.user_id, {database});
       await user.eagerLoad({with: ['Person']});
@@ -288,12 +278,12 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
     Object.assign(
       state.get(ControllerMixinView.LAYOUT).data,
       {
-        model: this.classObject(model),
+        model: this.classObject(state.get(ControllerMixinORMRead.MODEL)),
         controller: decamelize(client.constructor.name, {separator: '-'}),
-        action: request.params.action,
+        action: state.get(Controller.STATE_ACTION),
         user_full_name: session.user_meta.full_name,
         user_role: session.roles.join(' role-'),
-        checkpoint: request.query.cp,
+        checkpoint: state.get(Controller.STATE_CHECKPOINT),
       },
     );
 
@@ -306,7 +296,7 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
       Object.assign(state.get(ControllerMixinView.LAYOUT).data, {
         last_login_date: lastLogin.created_at,
         last_login_ip: lastLogin.ip,
-        ip: client.clientIP,
+        ip: state.get(Controller.STATE_CLIENT_IP),
       });
     }
   }
@@ -324,11 +314,10 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
   }
 
   static async action_create(state) {
-    const client = state.get(ControllerMixin.CLIENT);
-    const model = this.classObject(client.model);
+    const model = this.classObject(state.get(ControllerMixinORMRead.MODEL));
     const database = state.get(ControllerMixinDatabase.DATABASES).get(state.get(ControllerMixinORMRead.DATABASE_KEY));
 
-    const instance = state.get(ControllerMixinORMRead.INSTANCE) || ORM.create(client.model, { database });
+    const instance = state.get(ControllerMixinORMRead.INSTANCE) || ORM.create(state.get(ControllerMixinORMRead.MODEL), { database });
     state.set(ControllerMixinORMRead.INSTANCE, instance);
     const templateData = await this.modelToTemplateData(state);
     const data = {
@@ -340,24 +329,22 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
     const layoutData = state.get(ControllerMixinView.LAYOUT).data;
     layoutData.item = instance;
 
-    client.setTemplate(state.get(this.TEMPLATES).get('create'), data);
+    ControllerMixinView.setTemplate(state.get(this.TEMPLATES).get('create'), data);
   }
 
   static async action_delete(state) {
-    const client = state.get(ControllerMixin.CLIENT);
-    const { params } = client.request;
-    const { query } = client.request;
-    const model = this.classObject(client.model);
-    const { id } = client.request.params;
+    const params = state.get(Controller.STATE_PARAMS);
+    const query = state.get(Controller.STATE_QUERY);
+    const model = this.classObject(state.get(ControllerMixinORMRead.MODEL));
+    const { id } = params;
 
     if (!id) {
       throw new Error(`Delete ${model.name} require object id`);
     }
 
     if (!query.confirm) {
-      const checkpoint = query.cp;
-      const { entity } = params;
-      const { entityID } = params;
+      const checkpoint = state.get(Controller.STATE_CHECKPOINT);
+      const { entity, entityID } = params;
       const deleteSign = state.get(ControllerMixinORMDelete.DELETE_SIGN);
       const pathPrefix = state.get(this.PATH_PREFIX);
 
@@ -373,7 +360,7 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
         } : {}),
       };
 
-      client.setTemplate(state.get(this.TEMPLATES).get('dialog'), data);
+      ControllerMixinView.setTemplate(state.get(this.TEMPLATES).get('dialog'), data);
     }
   }
 
@@ -387,4 +374,3 @@ class ControllerMixinAdminTemplates extends ControllerMixin {
     };
   }
 }
-module.exports = ControllerMixinAdminTemplates;

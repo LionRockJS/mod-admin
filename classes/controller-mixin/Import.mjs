@@ -1,13 +1,13 @@
-const { ControllerMixin } = require('@kohanajs/core-mvc');
-const { ControllerMixinORMRead } = require('@kohanajs/mixin-orm');
-const { ControllerMixinMultipartForm } = require('@kohanajs/mod-form');
+import { readFile } from 'node:fs/promises';
+import { parse } from 'csv-parse/sync';
 
-const { ORM, ControllerMixinDatabase } = require('kohanajs');
-const {readFile} = require('fs').promises;
-const {parse} = require('csv-parse/sync');
-const ControllerMixinUpload = require('./Upload');
+import { ControllerMixin } from '@lionrockjs/mvc'
+import { ControllerMixinORMRead } from '@lionrockjs/mixin-orm';
+import { ControllerMixinMultipartForm } from '@lionrockjs/mod-form';
+import { ORM, ControllerMixinDatabase } from '@lionrockjs/central';
+import ControllerMixinUpload from './Upload.mjs';
 
-class ControllerMixinImport extends ControllerMixin {
+export default class ControllerMixinImport extends ControllerMixin {
   static UNIQUE_KEY = 'import_unique_key'; // columns as map, key is instance field, value is export header.
   static HEADER_COLUMN_MAP = 'import_header_column_map';
   static ENCODING = 'import_encoding';
@@ -138,5 +138,3 @@ class ControllerMixinImport extends ControllerMixin {
     await state.get(this.IMPORT_INSTANCE_HANDLER)(state, instance, csvRecord);
   }
 }
-
-module.exports = ControllerMixinImport;

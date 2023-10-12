@@ -1,6 +1,6 @@
-const { ControllerMixin } = require('@kohanajs/core-mvc');
+import { Controller, ControllerMixin } from '@lionrockjs/mvc'
 
-class ControllerMixinCRUDRedirect extends ControllerMixin {
+export default class ControllerMixinCRUDRedirect extends ControllerMixin {
   static PATH_PREFIX = 'crudPathPrefix';
 
   static INSTANCE = 'instance';
@@ -8,12 +8,12 @@ class ControllerMixinCRUDRedirect extends ControllerMixin {
   static REDIRECT = 'CRUDRedirectURL';
 
   static init(state) {
-    state.set(this.PATH_PREFIX, state.get(this.PATH_PREFIX) ?? 'admin/');
+    if(!state.get(this.PATH_PREFIX)) state.set(this.PATH_PREFIX, 'admin/');
   }
 
   static async action_update(state) {
-    const client = state.get(ControllerMixin.CLIENT);
-    const { params } = client.request;
+    const client = state.get(Controller.STATE_CLIENT);
+    const { params }  = state.get(Controller.STATE_REQUEST);
     const id = params.id || state.get(this.INSTANCE)?.id || '';
     const pathPrefix = state.get(this.PATH_PREFIX);
     const { tableName } = client.model;
@@ -23,9 +23,9 @@ class ControllerMixinCRUDRedirect extends ControllerMixin {
   }
 
   static async action_delete(state) {
-    const client = state.get(ControllerMixin.CLIENT);
+    const client = state.get(Controller.STATE_CLIENT);
+    const { query } = state.get(Controller.STATE_REQUEST);
     const { model } = client;
-    const { query } = client.request;
 
     if (!query.confirm) return;
     const checkpoint = query.cp;
@@ -40,8 +40,8 @@ class ControllerMixinCRUDRedirect extends ControllerMixin {
 
   static async after(state) {
     if (!state.get(this.REDIRECT)) return;
-    await state.get(ControllerMixin.CLIENT).redirect(state.get(this.REDIRECT));
+    await state.get(Controller.STATE_CLIENT).redirect(state.get(this.REDIRECT));
   }
 }
 
-module.exports = ControllerMixinCRUDRedirect;
+

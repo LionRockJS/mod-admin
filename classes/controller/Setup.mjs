@@ -1,9 +1,8 @@
-const {Controller} = require("@kohanajs/core-mvc");
-const {ControllerMixinMime, ControllerMixinView, ControllerMixinDatabase, KohanaJS, ORM} = require("kohanajs");
-const User = ORM.require('User');
-const {ControllerRegister} = require("@kohanajs/mod-auth");
+import { Controller } from '@lionrockjs/mvc'
+import { Central, ORM, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView } from '@lionrockjs/central';
+import { ControllerRegister, ModelUser as User } from '@lionrockjs/mod-auth';
 
-class ControllerSetup extends Controller{
+export default class ControllerSetup extends Controller{
   static mixins = [...Controller.mixins,
     ControllerMixinMime,
     ControllerMixinView,
@@ -12,7 +11,7 @@ class ControllerSetup extends Controller{
   constructor(request){
     super(request);
     this.state.get(ControllerMixinDatabase.DATABASE_MAP)
-      .set('admin', KohanaJS.config.auth.databasePath + '/admin.sqlite');
+      .set('admin', Central.config.auth.databasePath + '/admin.sqlite');
   }
 
   async action_setup_post(){
@@ -22,17 +21,16 @@ class ControllerSetup extends Controller{
       throw new Error('Setup completed. Please create user with root / admin users.');
     }
 
-    const oldAllow = KohanaJS.config.register.allowPostAssignRoleID;
-    KohanaJS.config.register.allowPostAssignRoleID = true;
+    const oldAllow = Central.config.register.allowPostAssignRoleID;
+    Central.config.register.allowPostAssignRoleID = true;
 
     const decorator = new ControllerRegister(this.request);
     const result = await decorator.execute('register_post');
     if(result.status === 500)this.body = result.body;
 
-    KohanaJS.config.register.allowPostAssignRoleID = oldAllow;
+    Central.config.register.allowPostAssignRoleID = oldAllow;
 
     await this.redirect(result.headers.location);
   }
 }
 
-module.exports = ControllerSetup;

@@ -1,21 +1,36 @@
 {
-  "name": "@kohanajs/mod-admin",
-  "version": "5.7.0",
+  "type": "module",
+  "name": "@lionrockjs/mod-admin",
+  "version": "1.0.0",
   "description": "Admin templates for KohanaJS ORM",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --experimental-vm-modules ../../../node_modules/jest/bin/jest.js --coverage"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {},
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[jt]s?(x)",
+      "**/?(*.)+(spec|test).mjs"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "mjs"
+    ]
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/kohana-js/modules/admin.git"
+    "url": "git+https://github.com/LionRockJS/mod-admin.git"
   },
   "author": "Kojin Nakana",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/kohana-js/modules/admin/issues"
+    "url": "https://github.com/LionRockJS/mod-admin/issues"
   },
-  "homepage": "https://gitlab.com/kohana-js/modules/admin",
+  "homepage": "https://github.com/LionRockJS/mod-admin",
   "dependencies": {
     "decamelize": "^6.0.0",
     "camelize": "^1.0.1",

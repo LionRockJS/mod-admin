@@ -1,5 +1,5 @@
-const { RouteList } = require('@kohanajs/mod-route');
-const RouteCRUD = require('./classes/helper/CRUD');
+import { RouteList } from '@lionrockjs/central';
+import RouteCRUD from './classes/helper/CRUD.mjs';
 
 RouteList.add('/admin', 'controller/admin/Home');
 RouteList.add('/register', 'controller/Setup', 'setup_post', 'POST', 10);

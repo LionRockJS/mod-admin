@@ -1,20 +1,21 @@
-require("@kohanajs/mod-auth");
-require("@kohanajs/mixin-orm");
-require('kohanajs').addNodeModule(__dirname);
-const ControllerAdmin = require('./classes/ControllerAdmin');
-const HelperCRUD = require('./classes/helper/CRUD');
-const ControllerMixinExport = require('./classes/controller-mixin/Export');
-const ControllerMixinUpload = require('./classes/controller-mixin/Upload');
-const ControllerMixinImport = require('./classes/controller-mixin/Import');
-const ControllerMixinActionLogger = require('./classes/controller-mixin/ActionLogger');
-const ControllerMixinAdminTemplates = require('./classes/controller-mixin/AdminTemplates');
-const ControllerMixinCRUDRedirect = require('./classes/controller-mixin/CRUDRedirect');
+import url from "node:url";
+const dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
+export default {dirname}
+
+import ControllerAdmin from './classes/ControllerAdmin.mjs';
+import HelperCRUD from './classes/helper/CRUD.mjs';
+import ControllerMixinExport from './classes/controller-mixin/Export.mjs';
+import ControllerMixinUpload from './classes/controller-mixin/Upload.mjs';
+import ControllerMixinImport from './classes/controller-mixin/Import.mjs';
+import ControllerMixinActionLogger from './classes/controller-mixin/ActionLogger.mjs';
+import ControllerMixinAdminTemplates from './classes/controller-mixin/AdminTemplates.mjs';
+import ControllerMixinCRUDRedirect from './classes/controller-mixin/CRUDRedirect.mjs';
 
 /**
  *
  * @type {{ControllerAdmin: ControllerAdmin, HelperCRUD: HelperCRUD}}
  */
-module.exports = {
+export {
   ControllerAdmin,
   HelperCRUD,
   ControllerMixinExport,

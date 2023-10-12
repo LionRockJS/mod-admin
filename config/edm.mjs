@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   mail: {
     activateCode: {
       subject: new Map([

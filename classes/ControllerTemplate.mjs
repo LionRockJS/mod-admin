@@ -1,7 +1,7 @@
-const { Controller } = require('@kohanajs/core-mvc');
-const { ControllerMixinMime, ControllerMixinView } = require('kohanajs');
+import { Controller } from '@lionrockjs/mvc'
+import { ControllerMixinMime, ControllerMixinView  } from '@lionrockjs/central';
 
-class ControllerView extends Controller {
+export default class ControllerTemplate extends Controller {
   static mixins = [...Controller.mixins, ControllerMixinMime, ControllerMixinView];
   constructor(request, controllerName = '') {
     super(request);
@@ -25,4 +25,4 @@ class ControllerView extends Controller {
   }
 }
 
-module.exports = ControllerView;
+

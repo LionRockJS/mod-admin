@@ -1,15 +1,16 @@
-const { ControllerMixin } = require('@kohanajs/core-mvc');
-const { KohanaJS } = require('kohanajs');
-const {ControllerMixinMultipartForm} = require("@kohanajs/mod-form");
-const path = require('path');
-const {stat, mkdir, copyFile, unlink} = require('fs').promises;
+import path from 'node:path';
+import { stat, mkdir, copyFile, unlink } from 'node:fs/promises';
 
-class ControllerMixinUpload extends ControllerMixin {
+import { ControllerMixin } from '@lionrockjs/mvc'
+import { Central } from '@lionrockjs/central';
+import { ControllerMixinMultipartForm } from '@lionrockjs/mod-form';
+
+export default class ControllerMixinUpload extends ControllerMixin {
   static FILES = 'uploadFiles';
   static UPLOAD_FOLDER = 'uploadFolder'
 
   static init(state) {
-    state.set(this.UPLOAD_FOLDER, path.normalize(`${KohanaJS.EXE_PATH}/../public/media/upload`));
+    state.set(this.UPLOAD_FOLDER, path.normalize(`${Central.EXE_PATH}/../public/media/upload`));
   }
 
   static async action_upload(state){
@@ -48,5 +49,3 @@ class ControllerMixinUpload extends ControllerMixin {
     state.set(this.FILES, files)
   }
 }
-
-module.exports = ControllerMixinUpload;

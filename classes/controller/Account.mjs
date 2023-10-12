@@ -1,16 +1,13 @@
 /***
- override ControllerAccount in @kohanajs/mod-auth
+ override ControllerAccount in @lionrockjs/mod-auth
 ***/
 
-const { ControllerMixinView, ORM } = require('kohanajs');
-const { ControllerMixinAccount } = require('@kohanajs/mod-auth');
-const { ControllerMixinAccountPassword } = require("@kohanajs/mod-auth-adapter-password");
+import { ControllerMixinView } from '@lionrockjs/central';
+import { ControllerMixinAccount, ModelUser as User } from '@lionrockjs/mod-auth';
+import { ControllerMixinAccountPassword } from '@lionrockjs/adapter-auth-password';
+import ControllerAdmin from '../ControllerAdmin.mjs';
 
-const ControllerAdmin = require('../ControllerAdmin');
-
-const User = ORM.require('User');
-
-class ControllerAccount extends ControllerAdmin {
+export default class ControllerAccount extends ControllerAdmin {
   static mixins = [...ControllerAdmin.mixins,
     ControllerMixinAccount,
     ControllerMixinAccountPassword
@@ -42,5 +39,3 @@ class ControllerAccount extends ControllerAdmin {
 
   async action_change_person_post(){}
 }
-
-module.exports = ControllerAccount;

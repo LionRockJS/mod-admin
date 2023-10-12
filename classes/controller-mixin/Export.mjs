@@ -1,7 +1,7 @@
-const {ControllerMixin} = require("@kohanajs/core-mvc");
-const {ControllerMixinORMRead} = require('@kohanajs/mixin-orm');
+const {ControllerMixin} "@kohanajs/core-mvc");
+const {ControllerMixinORMRead} '@kohanajs/mixin-orm');
 
-class ControllerMixinExport extends ControllerMixin{
+export default class ControllerMixinExport extends ControllerMixin{
   static COLUMNS = 'export_columns'; // columns as map, key is instance field, value is export header.
   static EAGER_LOAD_FUNCTION = 'export_eager_load';
   static EXPORT_INSTANCE_HANDLER = 'export_instance_handler';

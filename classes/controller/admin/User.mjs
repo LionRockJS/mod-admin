@@ -1,11 +1,9 @@
-const {ControllerMixinDatabase, ControllerMixinView, ORM} = require('kohanajs');
-const {ControllerMixinAuth, ControllerMixinRegister, IdentifierPassword} = require("@kohanajs/mod-auth");
-const ControllerAdmin = require('../../ControllerAdmin');
-const ControllerMixinAdminTemplates = require('../../controller-mixin/AdminTemplates');
-const User = ORM.require('User');
-const Role = ORM.require('Role');
+import { ControllerMixinDatabase, ControllerMixinView, ORM } from '@lionrockjs/central';
+import { ControllerMixinAuth, ControllerMixinRegister, IdentifierPassword, ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
+import ControllerAdmin from '../../ControllerAdmin.mjs';
+import ControllerMixinAdminTemplates from "../../controller-mixin/AdminTemplates.mjs";
 
-class ControllerAdminUser extends ControllerAdmin{
+export default class ControllerAdminUser extends ControllerAdmin{
   constructor(request) {
     super(request, User, {roles: new Set(['admin'])});
     this.state.get(ControllerMixinAdminTemplates.TEMPLATES).set('create', 'templates/admin/user/create');
@@ -43,5 +41,3 @@ class ControllerAdminUser extends ControllerAdmin{
     }
   }
 }
-
-module.exports = ControllerAdminUser;

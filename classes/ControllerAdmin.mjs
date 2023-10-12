@@ -1,19 +1,18 @@
-const { Controller } = require('@kohanajs/core-mvc');
+import { Controller } from '@lionrockjs/mvc'
+import { Central, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView  } from '@lionrockjs/central';
+import { ControllerMixinMultipartForm } from '@lionrockjs/mod-form';
+import { ControllerMixinORMRead, ControllerMixinORMWrite, ControllerMixinORMInput, ControllerMixinORMDelete } from '@lionrockjs/mixin-orm';
 
-const { KohanaJS, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView } = require('kohanajs');
-const { ControllerMixinMultipartForm } = require('@kohanajs/mod-form');
+import { ControllerMixinLoginRequire } from '@kohanajs/mod-auth';
+import { ControllerMixinSession } from '@kohanajs/mod-session';
+import ControllerMixinActionLogger from './controller-mixin/ActionLogger.mjs';
+import ControllerMixinAdminTemplates from './controller-mixin/AdminTemplates';
+import ControllerMixinCRUDRedirect from './controller-mixin/CRUDRedirect';
+import ControllerMixinExport from './controller-mixin/Export';
+import ControllerMixinUpload from './controller-mixin/Upload';
+import ControllerMixinImport from './controller-mixin/Import';
 
-const { ControllerMixinORMRead, ControllerMixinORMWrite, ControllerMixinORMInput, ControllerMixinORMDelete } = require('@kohanajs/mixin-orm');
-const { ControllerMixinLoginRequire } = require('@kohanajs/mod-auth');
-const { ControllerMixinSession } = require('@kohanajs/mod-session');
-const ControllerMixinActionLogger = KohanaJS.require('controller-mixin/ActionLogger');
-const ControllerMixinAdminTemplates = KohanaJS.require('controller-mixin/AdminTemplates');
-const ControllerMixinCRUDRedirect = KohanaJS.require('controller-mixin/CRUDRedirect');
-const ControllerMixinExport = KohanaJS.require('controller-mixin/Export');
-const ControllerMixinUpload = KohanaJS.require('controller-mixin/Upload');
-const ControllerMixinImport = KohanaJS.require('controller-mixin/Import');
-
-class ControllerAdmin extends Controller {
+export default class ControllerAdmin extends Controller {
   static mixins = [...Controller.mixins,
     ControllerMixinDatabase,
     ControllerMixinSession,
@@ -33,7 +32,15 @@ class ControllerAdmin extends Controller {
     ControllerMixinImport]
 
   constructor(request, model, options = {}) {
-    super(request);
+    super(request,
+    new Map([
+      [ControllerMixinLoginRequire.REJECT_LANDING, options.rejectLanding || '/login'],
+      [ControllerMixinLoginRequire.ALLOW_ROLES, options.roles || new Set(['admin', 'staff'])],
+      [ControllerMixinActionLogger.LOG_ACTIONS, options.log_actions || new Set(['create', 'update', 'delete'])],
+      [ControllerMixinORMRead.MODEL, model],
+      [ControllerMixinORMRead.DATABASE_KEY, options.database || 'admin'],
+      [ControllerMixinView.LAYOUT_FILE, options.layout || 'layout/admin/default'],
+    ]));
 
     this.options = { rejectLanding: '/login',
       roles: new Set(['admin', 'staff']),
@@ -57,29 +64,20 @@ class ControllerAdmin extends Controller {
     const databaseMap = this.state.get(ControllerMixinDatabase.DATABASE_MAP);
 
     new Map([
-      ['admin', `${KohanaJS.config.auth.databasePath}/admin.sqlite`],
-      ['session', `${KohanaJS.config.auth.databasePath}/session.sqlite`],
+      ['admin', `${Central.config.auth.databasePath}/admin.sqlite`],
+      ['session', `${Central.config.auth.databasePath}/session.sqlite`],
     ]).forEach((v, k) => databaseMap.set(k, v));
+
     this.options.databases.forEach((v, k) => databaseMap.set(k, v));
 
-    this.state.set(ControllerMixinLoginRequire.REJECT_LANDING, this.options.rejectLanding);
-    this.state.set(ControllerMixinLoginRequire.ALLOW_ROLES, this.options.roles);
-    this.state.set(ControllerMixinActionLogger.LOG_ACTIONS, this.options.log_actions);
-    this.state.set(ControllerMixinORMRead.MODEL, this.model);
-
-    this.state.set(ControllerMixinORMRead.DATABASE_KEY, this.options.database);
     this.state.get(ControllerMixinORMRead.ORM_OPTIONS)
       .set('limit', this.options.pagesize)
       .set('orderBy', this.options.orderBy);
 
     this.state.set(ControllerMixinORMWrite.DATABASE_KEY, this.state.get(ControllerMixinORMRead.DATABASE_KEY));
-    this.state.set(ControllerMixinView.LAYOUT_FILE, this.options.layout);
 
     const templates = this.state.get(ControllerMixinAdminTemplates.TEMPLATES);
-    this.options.templates.forEach((v, k) => {
-      templates.set(k, v);
-    });
-
+    this.options.templates.forEach((v, k) => templates.set(k, v));
     this.state.set(ControllerMixinAdminTemplates.PAGE_SIZE, this.options.pagesize);
 
     //    this.addMixin(new ControllerMixinAdminTemplates(this, $(this.databases).get('admin'), $(this.databases).get(this.options.database), this.layout, this.setTemplate, model, this.deleteSign, this.count, this.options.pagesize, 'admin/'));
@@ -104,4 +102,4 @@ class ControllerAdmin extends Controller {
   async action_import_post() {}
 }
 
-module.exports = ControllerAdmin;
+
