@@ -1,0 +1,25 @@
+<form action="/login" method="post" style="max-width: 500px; margin: 0 auto;">
+    <input type="hidden" name="destination" value="/admin" />
+    <div class="row">
+        <div class="col-sm-4">
+            <h2>{{ title | default: "Sign in." }}</h2>
+            <div class="login-form-message">
+                {{message}}
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="mb-2">
+                <input type="text" class="form-control" name="username" placeholder="User Name" required/>
+            </div>
+            <div class="mb-2">
+                <input type="password" class="form-control" name="password" placeholder="Password" required/>
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit">Sign In</button>
+            </div>
+
+        </div>
+    </div>
+    <div>
+    </div>
+</form>

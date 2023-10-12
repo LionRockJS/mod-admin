@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/media/favicon/favicon.ico" type="image/x-icon"/>
+    <title>Admin - post login</title>
+
+    <link rel="stylesheet" href="/media/css/fa.min.css">
+    <link rel="stylesheet" href="/media/css/bootstrap.css">
+    <link rel="stylesheet" href="/media/css/site.css" />
+    <link rel="stylesheet" href="/media/css/admin.css" />
+    {% for css in stylesheets %}    <link rel="stylesheet" href="/media/css/{{ css }}" />
+    {% endfor %}
+
+    <script type="application/javascript" src="/media/js/jquery.js" ></script>
+    <script type="application/javascript" src="/media/js/bootstrap.bundle.min.js" ></script>
+    <script type="application/javascript" src="/media/js/site.js" ></script>
+    <script type="application/javascript" src="/media/js/ping-update.js" ></script>
+    {% for script in scripts %}    <script type="application/javascript" src="/media/js/{{ script }}" ></script>
+    {% endfor %}
+</head>
+<body class="{{ controller }} {{ controller }}-{{ action }} role-{{ user_role }}">
+  <header>
+    <div class="tools">
+      <div class="admin-header-navigation">
+        {% if user_role == 'admin' %}
+          <a href="/admin/users">Users</a>
+          <a href="/admin/contents">Contents</a>
+        {% endif %}
+      </div>
+      <div class="admin-header-account-tools">
+        <span class="note">
+        {% if last_login_date %}
+          <span class="last_login_date">Last Login: {{ last_login_date }}</span>
+          <span class="last_login_ip">IP: {{ last_login_ip }}</span>
+          <span>Your IP: {{ ip }}</span>
+        {% endif %}
+        </span>
+
+        <a href="/account"><i class="fal fa-user"></i> {{ user_full_name }}</a>
+        <a href="/logout">Logout <i class="fal fa-sign-out"></i></a>
+      </div>
+    </div>
+  </header>
+
+<main>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {%if breadcrumb.size > 0 %}
+                {% for crumb in breadcrumb %}
+                    <li class="breadcrumb-item">{% if crumb.url != "" %}<a href="{{ crumb.url }}">{% endif %}{{ crumb.label }}{% if crumb.url != "" %}</a>{% endif %}</li>
+                {% endfor %}
+            {% else %}
+                <!-- breadcrumb by controller action-->
+                {% if controller == 'controller-admin-home' %}
+                    <li class="breadcrumb-item current"><a href="/admin/">Admin Home</a></li>
+                {% else %}
+                    <li class="breadcrumb-item current"><a href="/admin/">Admin Home</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/{{ model.tableName }}">{{ model.tableName | capitalize }}</a></li>
+                    <li class="breadcrumb-item current">{{ item.id }}</li>
+                {% endif %}
+            {% endif %}
+        </ol>
+    </nav>
+    {{ main }}
+</main>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<div class="card">
+    <h2 class="card-header">Create User</h2>
+    <form class="card-body" autocomplete="off" action="{{ action | default: "/register" }}" method="post">
+        <div class="form-group">
+            <input type="text" class="form-control" autocomplete="off" name="first_name" placeholder="Your Name" required/>
+        </div>
+
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" class="form-control" autocomplete="off" name="username" placeholder="User Name" required/>
+                </div>
+                <div class="col">
+                    <input type="password" class="form-control" autocomplete="new-password" name="password" placeholder="Password" required/>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            {% for role in roles %}
+            <div class="form-check">
+                <input class="form-check-input" id="role_{{ role.name | downcase }}" name="roles[]" type="checkbox" value="{{ role.name }}" {% if forloop.first %}checked{% endif %}/>
+                <label class="form-check-label" for="role_{{ role.name | downcase }}">{{ role.name }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group text-right">
+            <button class="btn btn-primary" type="submit">Create account</button>
+        </div>
+    </form>
+</div>
