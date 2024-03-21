@@ -3,8 +3,8 @@ import { Central, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinV
 import { ControllerMixinMultipartForm } from '@lionrockjs/mod-form';
 import { ControllerMixinORMRead, ControllerMixinORMWrite, ControllerMixinORMInput, ControllerMixinORMDelete } from '@lionrockjs/mixin-orm';
 
-import { ControllerMixinLoginRequire } from '@kohanajs/mod-auth';
-import { ControllerMixinSession } from '@kohanajs/mod-session';
+import { ControllerMixinLoginRequire } from '@lionrockjs/mod-auth';
+import { ControllerMixinSession } from '@lionrockjs/mod-session';
 import ControllerMixinActionLogger from './controller-mixin/ActionLogger.mjs';
 import ControllerMixinAdminTemplates from './controller-mixin/AdminTemplates';
 import ControllerMixinCRUDRedirect from './controller-mixin/CRUDRedirect';
