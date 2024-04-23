@@ -13,7 +13,7 @@ export default class ActionLogger extends ControllerMixin{
     static async before(state){
       const logActions = state.get(this.LOG_ACTIONS);
       const request = state.get(Controller.STATE_REQUEST);
-      const { action } = state.get(Controller.STATE_PARAMS);
+      const action  = state.get(Controller.STATE_ACTION);
 
       if(logActions.has(action)){
         const now = new Date();

@@ -6,26 +6,26 @@ export default class ControllerMixinCRUDRedirect extends ControllerMixin {
   static INSTANCE = 'instance';
 
   static REDIRECT = 'CRUDRedirectURL';
+  static MODEL = 'orm_model'
 
   static init(state) {
     if(!state.get(this.PATH_PREFIX)) state.set(this.PATH_PREFIX, 'admin/');
   }
 
   static async action_update(state) {
-    const client = state.get(Controller.STATE_CLIENT);
     const { params }  = state.get(Controller.STATE_REQUEST);
     const id = params.id || state.get(this.INSTANCE)?.id || '';
     const pathPrefix = state.get(this.PATH_PREFIX);
-    const { tableName } = client.model;
+    const model = state.get(this.MODEL);
+    const { tableName } = model;
 
     const postData = state.get('$_POST');
     state.set(this.REDIRECT, !postData?.destination ? `/${pathPrefix}${tableName}/${id}` : postData.destination);
   }
 
   static async action_delete(state) {
-    const client = state.get(Controller.STATE_CLIENT);
-    const { query } = state.get(Controller.STATE_REQUEST);
-    const { model } = client;
+    const query = state.get(Controller.STATE_QUERY);
+    const model = state.get(this.MODEL);
 
     if (!query.confirm) return;
     const checkpoint = query.cp;
@@ -40,7 +40,8 @@ export default class ControllerMixinCRUDRedirect extends ControllerMixin {
 
   static async after(state) {
     if (!state.get(this.REDIRECT)) return;
-    await state.get(Controller.STATE_CLIENT).redirect(state.get(this.REDIRECT));
+    const {redirect} = state.get(Controller.STATE_CLIENT);
+    await redirect(state.get(this.REDIRECT));
   }
 }
 

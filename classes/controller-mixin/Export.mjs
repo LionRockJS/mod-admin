@@ -1,5 +1,5 @@
-const {ControllerMixin} "@kohanajs/core-mvc");
-const {ControllerMixinORMRead} '@kohanajs/mixin-orm');
+import {ControllerMixin, Controller} from '@lionrockjs/mvc';
+import {ControllerMixinORMRead} from '@lionrockjs/mixin-orm';
 
 export default class ControllerMixinExport extends ControllerMixin{
   static COLUMNS = 'export_columns'; // columns as map, key is instance field, value is export header.
@@ -18,11 +18,11 @@ export default class ControllerMixinExport extends ControllerMixin{
 
   static async action_export(state){
     // set response header
-    const client = state.get('client');
-    client.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
-    client.headers['Pragma'] = 'no-cache';
-    client.headers['Expires'] = '0';
-    client.headers['Content-Type'] = 'application/csv; charset=utf-8';
+    const headers = state.get(Controller.STATE_HEADERS);
+    headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+    headers['Pragma'] = 'no-cache';
+    headers['Expires'] = '0';
+    headers['Content-Type'] = 'application/csv; charset=utf-8';
 
     // action_index get instances
     state.get(ControllerMixinORMRead.ORM_OPTIONS).set('limit', 99999);
@@ -73,7 +73,7 @@ export default class ControllerMixinExport extends ControllerMixin{
     rows.unshift([...columns.values()].map(x=> (typeof x === 'string') ? `"=""${x}"""`: x).join(','))
 
     // Add BOM
-    client.body = '\ufeff'+ rows.join('\n');
+    state.set(Controller.STATE_BODY, '\ufeff'+ rows.join('\n'));
   }
 }
 

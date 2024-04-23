@@ -1,3 +1,4 @@
+//review required
 import querystring from "node:querystring";
 import pluralize from "pluralize";
 import camelize from "camelize";
@@ -48,7 +49,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
   }
 
   static async listView(state, template) {
-    const request = state.get(Controller.STATE_REQUEST);
+    const query = state.get(Controller.STATE_QUERY);
     const model = this.classObject(state.get(ControllerMixinORMRead.MODEL));
 
     const page = parseInt(request.query.page ?? '1');
@@ -59,12 +60,11 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       type: model,
       page,
       maxPage,
-      query: querystring.encode(request.query),
-      start:request.query.start,
-      end:request.query.end
+      query: querystring.encode(query),
+      start: query.start,
+      end: query.end
     };
     Object.assign(state.get(ControllerMixinView.LAYOUT).data, data);
-
     ControllerMixinView.setTemplate(template, data);
   }
 

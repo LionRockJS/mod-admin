@@ -13,6 +13,8 @@ import ControllerMixinUpload from './controller-mixin/Upload';
 import ControllerMixinImport from './controller-mixin/Import';
 
 export default class ControllerAdmin extends Controller {
+  static STATE_MODEL = 'orm_model';
+
   static mixins = [...Controller.mixins,
     ControllerMixinDatabase,
     ControllerMixinSession,
@@ -59,7 +61,7 @@ export default class ControllerAdmin extends Controller {
       ]),
       ...options };
 
-    this.model = model;
+    this.state.set(ControllerAdmin.STATE_MODEL, model);
 
     const databaseMap = this.state.get(ControllerMixinDatabase.DATABASE_MAP);
 

@@ -3,26 +3,23 @@ import { ControllerMixinMime, ControllerMixinView  } from '@lionrockjs/central';
 
 export default class ControllerTemplate extends Controller {
   static mixins = [...Controller.mixins, ControllerMixinMime, ControllerMixinView];
-  constructor(request, controllerName = '') {
-    super(request);
-    this.languageNames = new Map([['en', 'English'], ['zh-hans', '简体中文']]);
-    this.language = this.language || 'en';
-    this.clientName = controllerName;
 
+  constructor(request, controllerName = '', state = new Map()) {
+    super(request, state);
+    this.languageNames = new Map([['en', 'English'], ['zh-hans', '简体中文']]);
+
+    if( !this.state.get(Controller.STATE_LANGUAGE) )this.state.set(Controller.STATE_LANGUAGE, 'en');
     this.state.set(ControllerMixinView.LAYOUT_FILE, 'layout/default');
 
-    const { hostname } = this.request.raw;
-    const domain = hostname.split(':')[0];
+    const domain = this.state.get(Controller.STATE_HOSTNAME).split(':')[0];
     // push language, controller, action to layout
     Object.assign(this.state.get(ControllerMixinView.LAYOUT).data, {
       domain,
-      controller: this.clientName,
-      action: this.request.params.action,
-      language: this.language,
-      language_name: this.languageNames.get(this.language),
-      cookieConsent: this.request.cookies['allow-cookie'],
+      controller: controllerName,
+      action: this.state.get(Controller.STATE_ACTION),
+      language: this.state.get(Controller.STATE_LANGUAGE),
+      language_name: this.languageNames.get(this.state.get(Controller.STATE_LANGUAGE)),
+      cookie_consent: this.state.get(Controller.STATE_COOKIES)['allow-cookie'],
     });
   }
 }
-
-
