@@ -49,7 +49,7 @@ export default class ControllerAdmin extends Controller {
       layout: 'layout/admin/default',
       databases: new Map(),
       database: 'admin',
-      pagesize: this.request.query.pagesize || 50,
+      pagesize: request.query.pagesize || 50,
       log_actions: new Set(['create', 'update', 'delete']),
       orderBy: new Map([[request.query.sort ?? 'created_at', request.query.order ?? 'DESC']]),
       templates: new Map([
@@ -81,8 +81,6 @@ export default class ControllerAdmin extends Controller {
     const templates = this.state.get(ControllerMixinAdminTemplates.TEMPLATES);
     this.options.templates.forEach((v, k) => templates.set(k, v));
     this.state.set(ControllerMixinAdminTemplates.PAGE_SIZE, this.options.pagesize);
-
-    //    this.addMixin(new ControllerMixinAdminTemplates(this, $(this.databases).get('admin'), $(this.databases).get(this.options.database), this.layout, this.setTemplate, model, this.deleteSign, this.count, this.options.pagesize, 'admin/'));
   }
 
   async action_index() {}

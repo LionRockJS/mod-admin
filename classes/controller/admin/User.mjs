@@ -1,3 +1,4 @@
+import { Controller } from '@lionrockjs/central';
 import { ControllerMixinDatabase, ControllerMixinView, ORM } from '@lionrockjs/central';
 import { ControllerMixinAuth, ControllerMixinRegister, ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
 import { IdentifierPassword } from '@lionrockjs/adapter-auth-password';
@@ -37,7 +38,7 @@ export default class ControllerAdminUser extends ControllerAdmin{
   }
 
   async onExit(){
-    if(this.status === 500 && this.request.params.action === 'create_post'){
+    if(this.state.get(Controller.STATE_STATUS) === 500 && this.state.get(Controller.STATE_ACTION) === 'create_post'){
       await this.redirect(`/login?msg=${this.error.message}`);
     }
   }

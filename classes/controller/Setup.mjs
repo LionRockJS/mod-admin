@@ -24,9 +24,9 @@ export default class ControllerSetup extends Controller{
     const oldAllow = Central.config.register.allowPostAssignRoleID;
     Central.config.register.allowPostAssignRoleID = true;
 
-    const decorator = new ControllerRegister(this.request);
+    const decorator = new ControllerRegister(this.state.get(Controller.STATE_REQUEST));
     const result = await decorator.execute('register_post');
-    if(result.status === 500)this.body = result.body;
+    if(result.status === 500)this.state.set(Controller.STATE_BODY, result.body);
 
     Central.config.register.allowPostAssignRoleID = oldAllow;
 

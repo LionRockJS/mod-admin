@@ -4,22 +4,17 @@ import pluralize from "pluralize";
 import camelize from "camelize";
 import decamelize from "decamelize";
 
+import { Controller, ControllerMixin } from '@lionrockjs/mvc';
 import { ORM, ControllerMixinView, ControllerMixinDatabase } from '@lionrockjs/central';
 import { ControllerMixinORMRead, ControllerMixinORMDelete } from '@lionrockjs/mixin-orm';
-import { Controller, ControllerMixin } from '@lionrockjs/mvc';
 import { ModelUser as User, ModelLogin as Login } from '@lionrockjs/mod-auth';
 
 export default class ControllerMixinAdminTemplates extends ControllerMixin {
   static ADMIN_DATABASE_KEY = 'adminDBKey';
-
   static PATH_PREFIX = 'pathPrefix';
-
-  static MODEL = 'model';
-
+  static MODEL = 'orm_model';
   static INSTANCE = 'instance';
-
   static PAGE_SIZE = 'pageSize';
-
   static TEMPLATES = 'templates';
 
   static init(state) {
@@ -33,15 +28,6 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       ['create', 'templates/admin/edit'],
       ['dialog', 'templates/admin/dialog'],
     ]));
-
-    const client = state.get(Controller.STATE_CLIENT);
-    client.listView = client.listView || (async template => {
-      await this.listView(state, template);
-    });
-
-    client.readView = client.readView || (async template => {
-      await this.readView(state, template);
-    });
   }
 
   static classObject(Model) {

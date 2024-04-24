@@ -1,4 +1,4 @@
-import { ControllerMixinDatabase, ORM, Central } from '@lionrockjs/central';
+import {ControllerMixinDatabase, ORM, Central, ControllerMixinView} from '@lionrockjs/central';
 import { ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
 import ControllerTemplate from '../ControllerTemplate.mjs';
 
@@ -20,7 +20,7 @@ export default class ControllerHome extends ControllerTemplate{
     const database = databases.get('admin');
     const usercount = await ORM.count(User, { database});
     const roles = await ORM.readAll(Role, {database})
-    this.setTemplate('templates/home', { roles, message: '', allowSignup: usercount === 0 });
+    ControllerMixinView.setTemplate(this.state, 'templates/home', { roles, message: '', allowSignup: usercount === 0 });
   }
 }
 
