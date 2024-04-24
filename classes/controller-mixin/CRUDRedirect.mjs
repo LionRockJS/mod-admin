@@ -40,8 +40,8 @@ export default class ControllerMixinCRUDRedirect extends ControllerMixin {
 
   static async after(state) {
     if (!state.get(this.REDIRECT)) return;
-    const {redirect} = state.get(Controller.STATE_CLIENT);
-    await redirect(state.get(this.REDIRECT));
+    const client = state.get(Controller.STATE_CLIENT);
+    await client.redirect(state.get(this.REDIRECT));
   }
 }
 
