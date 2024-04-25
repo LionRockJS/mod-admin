@@ -6,6 +6,7 @@ export default class ControllerTemplate extends Controller {
 
   constructor(request, controllerName = '', state = new Map()) {
     super(request, state);
+    const cookies = request.cookies || {};
     this.languageNames = new Map([['en', 'English'], ['zh-hans', '简体中文']]);
 
     if( !this.state.get(Controller.STATE_LANGUAGE) )this.state.set(Controller.STATE_LANGUAGE, 'en');
@@ -19,7 +20,7 @@ export default class ControllerTemplate extends Controller {
       action: this.state.get(Controller.STATE_ACTION),
       language: this.state.get(Controller.STATE_LANGUAGE),
       language_name: this.languageNames.get(this.state.get(Controller.STATE_LANGUAGE)),
-      cookie_consent: this.state.get(Controller.STATE_COOKIES)['allow-cookie'],
+      cookie_consent: cookies['allow-cookie'],
     });
   }
 }
