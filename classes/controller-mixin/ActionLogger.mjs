@@ -47,5 +47,3 @@ export default class ActionLogger extends ControllerMixin{
       }
     }
 }
-
-module.exports  = ActionLogger;

@@ -76,5 +76,3 @@ export default class ControllerMixinExport extends ControllerMixin{
     state.set(Controller.STATE_BODY, '\ufeff'+ rows.join('\n'));
   }
 }
-
-module.exports  = ControllerMixinExport;

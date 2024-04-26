@@ -38,7 +38,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     const query = state.get(Controller.STATE_QUERY);
     const model = this.classObject(state.get(ControllerMixinORMRead.MODEL));
 
-    const page = parseInt(request.query.page ?? '1');
+    const page = parseInt(query.page ?? '1');
     const maxPage = Math.ceil(state.get(ControllerMixinORMRead.COUNT) / state.get(this.PAGE_SIZE));
 
     const data = {
@@ -51,7 +51,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       end: query.end
     };
     Object.assign(state.get(ControllerMixinView.LAYOUT).data, data);
-    ControllerMixinView.setTemplate(template, data);
+    ControllerMixinView.setTemplate(state, template, data);
   }
 
   static async readView(state, template) {
@@ -74,7 +74,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     };
 
     state.get(ControllerMixinView.LAYOUT).data.item = instance;
-    ControllerMixinView.setTemplate(template, data);
+    ControllerMixinView.setTemplate(state, template, data);
   }
 
   static entitySupport(state) {
@@ -315,7 +315,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     const layoutData = state.get(ControllerMixinView.LAYOUT).data;
     layoutData.item = instance;
 
-    ControllerMixinView.setTemplate(state.get(this.TEMPLATES).get('create'), data);
+    ControllerMixinView.setTemplate(state, state.get(this.TEMPLATES).get('create'), data);
   }
 
   static async action_delete(state) {
@@ -346,7 +346,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
         } : {}),
       };
 
-      ControllerMixinView.setTemplate(state.get(this.TEMPLATES).get('dialog'), data);
+      ControllerMixinView.setTemplate(state, state.get(this.TEMPLATES).get('dialog'), data);
     }
   }
 

@@ -5,12 +5,13 @@ import { ControllerMixinORMRead, ControllerMixinORMWrite, ControllerMixinORMInpu
 
 import { ControllerMixinLoginRequire } from '@lionrockjs/mod-auth';
 import { ControllerMixinSession } from '@lionrockjs/mod-session';
+
 import ControllerMixinActionLogger from './controller-mixin/ActionLogger.mjs';
-import ControllerMixinAdminTemplates from './controller-mixin/AdminTemplates';
-import ControllerMixinCRUDRedirect from './controller-mixin/CRUDRedirect';
-import ControllerMixinExport from './controller-mixin/Export';
-import ControllerMixinUpload from './controller-mixin/Upload';
-import ControllerMixinImport from './controller-mixin/Import';
+import ControllerMixinAdminTemplates from './controller-mixin/AdminTemplates.mjs';
+import ControllerMixinCRUDRedirect from './controller-mixin/CRUDRedirect.mjs';
+import ControllerMixinExport from './controller-mixin/Export.mjs';
+import ControllerMixinUpload from './controller-mixin/Upload.mjs';
+import ControllerMixinImport from './controller-mixin/Import.mjs';
 
 export default class ControllerAdmin extends Controller {
   static STATE_MODEL = 'orm_model';
