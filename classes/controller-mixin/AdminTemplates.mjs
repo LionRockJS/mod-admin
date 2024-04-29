@@ -5,7 +5,7 @@ import camelize from "camelize";
 import decamelize from "decamelize";
 
 import { Controller, ControllerMixin } from '@lionrockjs/mvc';
-import { ORM, ControllerMixinView, ControllerMixinDatabase } from '@lionrockjs/central';
+import { Central, ORM, ControllerMixinView, ControllerMixinDatabase } from '@lionrockjs/central';
 import { ControllerMixinORMRead, ControllerMixinORMDelete } from '@lionrockjs/mixin-orm';
 import { ModelUser as User, ModelLogin as Login } from '@lionrockjs/mod-auth';
 
@@ -113,8 +113,8 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
         this.getDomain(state),
       );
     } catch (e) {
-      console.log(instance);
-      console.log(e);
+      Central.log(instance);
+      Central.log(e);
     }
 
     return {};
@@ -223,8 +223,8 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
             checkpoint: encodeURIComponent(request.raw.url),
           };
         } catch (e) {
-          console.log(e);
-          console.log(Model);
+          Central.log(e);
+          Central.log(Model);
         }
       }),
     );
