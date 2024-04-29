@@ -204,7 +204,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     const m = instance.constructor;
     if (!m.hasMany || m.hasMany.length <= 0) return;
 
-    const client = state.get(Controller.STATE_CLIENT);
+    const request = state.get(Controller.STATE_REQUEST);
     const { id } = state.get(Controller.STATE_PARAMS);
 
     const items = await Promise.all(
@@ -220,7 +220,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
             fields,
             items,
             defaultValues: encodeURIComponent(`{"${fk}":${id}}`),
-            checkpoint: encodeURIComponent(client.request.raw.url),
+            checkpoint: encodeURIComponent(request.raw.url),
           };
         } catch (e) {
           console.log(e);
