@@ -1,8 +1,8 @@
 {
   "type": "module",
   "name": "@lionrockjs/mod-admin",
-  "version": "1.0.0",
-  "description": "Admin templates for KohanaJS ORM",
+  "version": "0.0.1",
+  "description": "Admin features for LionRockJS ORM",
   "main": "index.js",
   "scripts": {
     "test": "node --experimental-vm-modules ../../../node_modules/jest/bin/jest.js --coverage"
