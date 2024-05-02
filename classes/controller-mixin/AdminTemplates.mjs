@@ -70,14 +70,14 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
         ? `/admin/b/${entity}-${entityID}/${model.tableName}/delete/${id}?cp=/admin/b/${entity}-${entityID}/${model.tableName}/${id}`
         : `/admin/${model.tableName}/delete/${id}`,
       ...templateData,
-      ...this.entitySupport(state),
+      ... await this.entitySupport(state),
     };
 
     state.get(ControllerMixinView.LAYOUT).data.item = instance;
     ControllerMixinView.setTemplate(state, template, data);
   }
 
-  static entitySupport(state) {
+  static async entitySupport(state) {
     const checkpoint = state.get(Controller.STATE_CHECKPOINT);
     const { entity, entityID } = state.get(Controller.STATE_PARAMS);
     if (!entity) return (checkpoint) ? { destination: checkpoint } : {};
@@ -85,7 +85,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     const singularEntity = pluralize.singular(entity);
     const entityClassName = singularEntity.charAt(0).toUpperCase() + singularEntity.slice(1);
 
-    const entityClass = ORM.require(camelize(entityClassName));
+    const entityClass = await ORM.import(camelize(entityClassName));
     if (!entityClass) throw new Error('invalid entity');
 
     const destination = (checkpoint) ? { destination: checkpoint, checkpoint }
@@ -309,7 +309,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     const data = {
       model,
       ...templateData,
-      ...this.entitySupport(state),
+      ...await this.entitySupport(state),
     };
 
     const layoutData = state.get(ControllerMixinView.LAYOUT).data;

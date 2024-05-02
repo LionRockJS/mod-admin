@@ -2,6 +2,7 @@ import { Controller } from '@lionrockjs/mvc';
 import { ControllerMixinDatabase, ControllerMixinView, ORM } from '@lionrockjs/central';
 import { ControllerMixinAuth, ControllerMixinRegister, ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
 import { IdentifierPassword } from '@lionrockjs/adapter-auth-password';
+import { ControllerMixinORMRead } from '@lionrockjs/mixin-orm';
 
 import ControllerAdmin from '../../ControllerAdmin.mjs';
 import ControllerMixinAdminTemplates from "../../controller-mixin/AdminTemplates.mjs";
@@ -13,7 +14,7 @@ export default class ControllerAdminUser extends ControllerAdmin{
   }
 
   async action_index(){
-    const instances = this.state.get('instances');
+    const instances = this.state.get(ControllerMixinORMRead.INSTANCES);
     await Promise.all(
       instances.map(user => user.eagerLoad({with: ['Person']}))
     )
@@ -21,7 +22,6 @@ export default class ControllerAdminUser extends ControllerAdmin{
     instances.forEach(
       user => user.name = user.person.first_name + (user.person.last_name ? ` ${user.person.last_name}` : "")
     );
-
   }
 
   async action_create() {
