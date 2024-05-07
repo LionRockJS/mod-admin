@@ -3,7 +3,7 @@ import { parse } from 'csv-parse/sync';
 
 import { ControllerMixin } from '@lionrockjs/mvc'
 import { ControllerMixinORMRead } from '@lionrockjs/mixin-orm';
-import { ControllerMixinMultipartForm } from '@lionrockjs/mod-form';
+import { ControllerMixinMultipartForm } from '@lionrockjs/mixin-form';
 import { ORM, ControllerMixinDatabase } from '@lionrockjs/central';
 import ControllerMixinUpload from './Upload.mjs';
 

@@ -3,7 +3,7 @@ import { stat, mkdir, copyFile, unlink } from 'node:fs/promises';
 
 import { ControllerMixin } from '@lionrockjs/mvc'
 import { Central } from '@lionrockjs/central';
-import { ControllerMixinMultipartForm } from '@lionrockjs/mod-form';
+import { ControllerMixinMultipartForm } from '@lionrockjs/mixin-form';
 
 export default class ControllerMixinUpload extends ControllerMixin {
   static FILES = 'uploadFiles';
