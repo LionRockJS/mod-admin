@@ -1,0 +1,176 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "mod-admin",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/register": {
+      "post": {
+        "x-controller": "controller/admin/Home",
+        "x-action": "setup_post",
+        "tags": ["register"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin": {
+      "get": {
+        "x-controller": "controller/admin/Home",
+        "tags": ["admin"],
+        "responses": {
+          "200": {
+              "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/user/create-user": {
+      "post": {
+        "x-controller": "controller/admin/User",
+        "x-action": "create_post",
+        "tags": ["admin"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/users/new": {
+      "get": {
+        "x-controller": "controller/admin/User",
+        "x-action": "create",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "x-controller": "controller/admin/User",
+        "x-action": "update",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/users/:id": {
+      "get": {
+        "x-controller": "controller/admin/User",
+        "x-action": "read",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "x-controller": "controller/admin/User",
+        "x-action": "update",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "x-controller": "controller/admin/User",
+        "x-action": "update",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "x-controller": "controller/admin/User",
+        "x-action": "delete",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/users/delete/:id": {
+      "get": {
+        "x-controller": "controller/admin/User",
+        "x-action": "delete",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/users": {
+      "get": {
+        "x-controller": "controller/admin/User",
+        "x-action": "index",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "x-controller": "controller/admin/User",
+        "x-action": "update",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/users/export.csv": {
+      "get": {
+        "x-controller": "controller/admin/User",
+        "x-action": "export",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/users/import": {
+      "get": {
+        "x-controller": "controller/admin/User",
+        "x-action": "import",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "x-controller": "controller/admin/User",
+        "x-action": "import_post",
+        "tags": ["user"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
