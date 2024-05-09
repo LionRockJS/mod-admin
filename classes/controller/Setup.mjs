@@ -16,7 +16,7 @@ export default class ControllerSetup extends Controller{
 
   async action_setup_post(){
     const database = this.state.get(ControllerMixinDatabase.DATABASES).get('admin');
-    const user_count = await ORM.count(User, {database});
+    const user_count = await ORM.countAll(User, {database});
     if(user_count){
       throw new Error('Setup completed. Please create user with root / admin users.');
     }

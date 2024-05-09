@@ -155,12 +155,12 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     const items = await Promise.all(
       [...m.belongsTo].map(async x => {
         const fk = x[0];
-        const model = await ORM.import(x[1]);
-        const items = await ORM.readAll(model, { database: state.get(ControllerMixinDatabase.DATABASES).get(state.get(ControllerMixinORMRead.DATABASE_KEY)), asArray: true });
+        const Model = await ORM.import(x[1]);
+        const items = await ORM.readAll(Model, { database: state.get(ControllerMixinDatabase.DATABASES).get(state.get(ControllerMixinORMRead.DATABASE_KEY)), asArray: true });
 
         return {
           instance,
-          model: this.classObject(model),
+          model: this.classObject(Model),
           foreign_key: fk,
           items,
         };
