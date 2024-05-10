@@ -11,12 +11,13 @@ export default class ControllerSetup extends Controller{
   constructor(request){
     super(request);
     this.state.get(ControllerMixinDatabase.DATABASE_MAP)
-      .set('admin', Central.config.auth.databasePath + '/admin.sqlite');
+      .set(Central.config.auth.databaseMapName, Central.config.auth.databasePath + '/'+ Central.config.auth.userDatabase);
   }
 
   async action_setup_post(){
-    const database = this.state.get(ControllerMixinDatabase.DATABASES).get('admin');
+    const database = this.state.get(ControllerMixinDatabase.DATABASES).get(Central.config.auth.databaseMapName);
     const user_count = await ORM.countAll(User, {database});
+    console.log(user_count);
     if(user_count){
       throw new Error('Setup completed. Please create user with root / admin users.');
     }
