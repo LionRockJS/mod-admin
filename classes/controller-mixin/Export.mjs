@@ -1,5 +1,6 @@
-import {ControllerMixin, Controller} from '@lionrockjs/mvc';
+import {ControllerMixin, Controller, View} from '@lionrockjs/mvc';
 import {ControllerMixinORMRead} from '@lionrockjs/mixin-orm';
+import {ControllerMixinView} from '@lionrockjs/central';
 
 export default class ControllerMixinExport extends ControllerMixin{
   static COLUMNS = 'export_columns'; // columns as map, key is instance field, value is export header.
@@ -74,5 +75,7 @@ export default class ControllerMixinExport extends ControllerMixin{
 
     // Add BOM
     state.set(Controller.STATE_BODY, '\ufeff'+ rows.join('\n'));
+
+    ControllerMixinView.setLayout(this.state, new View("", this.state.get(Controller.STATE_BODY)));
   }
 }
