@@ -76,6 +76,6 @@ export default class ControllerMixinExport extends ControllerMixin{
     // Add BOM
     state.set(Controller.STATE_BODY, '\ufeff'+ rows.join('\n'));
 
-    ControllerMixinView.setLayout(this.state, new View("", state.get(Controller.STATE_BODY)));
+    ControllerMixinView.setLayout(state, new View("", state.get(Controller.STATE_BODY)));
   }
 }
