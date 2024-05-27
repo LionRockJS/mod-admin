@@ -32,9 +32,9 @@
   },
   "homepage": "https://github.com/LionRockJS/mod-admin",
   "dependencies": {
-    "decamelize": "^6.0.0",
     "camelize": "^1.0.1",
-    "csv-parse": "^5.5.6"
-  },
-  "devDependencies": {}
+    "csv-parse": "^5.5.6",
+    "decamelize": "^6.0.0",
+    "moment": "^2.30.1"
+  }
 }

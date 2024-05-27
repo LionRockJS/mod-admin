@@ -249,6 +249,16 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     return {};
   }
 
+  static getFieldValue(scope, fieldName, fieldType = '', value = null) {
+    return {
+      label: fieldName,
+      name: `${scope}:${fieldName}`,
+      type: fieldType.replace(/!$/, ''),
+      required: /!$/.test(fieldType),
+      value,
+    };
+  }
+
   static async before(state) {
     const client = state.get(Controller.STATE_CLIENT);
     const request = state.get(Controller.STATE_REQUEST);
@@ -348,15 +358,5 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
 
       ControllerMixinView.setTemplate(state, state.get(this.TEMPLATES).get('dialog'), data);
     }
-  }
-
-  static getFieldValue(scope, fieldName, fieldType = '', value = null) {
-    return {
-      label: fieldName,
-      name: `${scope}:${fieldName}`,
-      type: fieldType.replace(/!$/, ''),
-      required: /!$/.test(fieldType),
-      value,
-    };
   }
 }

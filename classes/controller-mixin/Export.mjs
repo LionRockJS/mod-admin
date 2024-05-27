@@ -3,7 +3,7 @@ import {ControllerMixinORMRead} from '@lionrockjs/mixin-orm';
 import {ControllerMixinView} from '@lionrockjs/central';
 
 export default class ControllerMixinExport extends ControllerMixin{
-  static COLUMNS = 'export_columns'; // columns as map, key is instance field, value is export header.
+  static COLUMNS = 'export_columns'; // columns as map, key is instance field, value is export header. Need to manually set the export columns to prevent export sensitive data.
   static EAGER_LOAD_FUNCTION = 'export_eager_load';
   static EXPORT_INSTANCE_HANDLER = 'export_instance_handler';
   static EXPORT_INSTANCES_FILTER = 'export_instances_filter';
@@ -14,8 +14,6 @@ export default class ControllerMixinExport extends ControllerMixin{
     if (!state.get(this.EXPORT_INSTANCE_HANDLER))state.set(this.EXPORT_INSTANCE_HANDLER, async (state, instance) => {/***/});
     if (!state.get(this.EXPORT_INSTANCES_FILTER))state.set(this.EXPORT_INSTANCES_FILTER, async (state) => {/***/});
   }
-
-  static async setup(state) {}
 
   static async action_export(state){
     // set response header
@@ -34,9 +32,6 @@ export default class ControllerMixinExport extends ControllerMixin{
     await state.get(this.EAGER_LOAD_FUNCTION)(state);
 
     // Loop columns create rows
-    const rows = [];
-    const columns = state.get(this.COLUMNS);
-
     const instanceHandler = state.get(this.EXPORT_INSTANCE_HANDLER);
     await Promise.all(
       instances.map(async it =>{
@@ -48,6 +43,8 @@ export default class ControllerMixinExport extends ControllerMixin{
     await state.get(this.EXPORT_INSTANCES_FILTER)(state);
 
     const filteredInstances = state.get(ControllerMixinORMRead.INSTANCES);
+    const rows = [];
+    const columns = state.get(this.COLUMNS);
 
     filteredInstances.forEach(it =>{
       if(!it)return;

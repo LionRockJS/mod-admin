@@ -13,7 +13,7 @@ export default class ControllerMixinUpload extends ControllerMixin {
     state.set(this.UPLOAD_FOLDER, path.normalize(`${Central.EXE_PATH}/../public/media/upload`));
   }
 
-  static async action_upload(state){
+  static async action_upload_post(state){
     //prepare upload folder
     const today = new Date();
     const uploadFolder = state.get(this.UPLOAD_FOLDER);

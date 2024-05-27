@@ -35,8 +35,6 @@ export default class ControllerMixinImport extends ControllerMixin {
     if(!state.get(this.IMPORT_INSTANCE_HANDLER))state.set(this.IMPORT_CSV_HANDLER, async (state, instance, csvRecord) => {/***/});
   }
 
-  static async action_import(state) {/***/}
-
   static async readCSV(state){
     const file = state.get(ControllerMixinUpload.FILES)[0];
     /**
@@ -59,6 +57,14 @@ export default class ControllerMixinImport extends ControllerMixin {
       records
     }
   }
+
+  static async writeRecord(state, instance, csvRecord){
+    Object.assign(instance, csvRecord);
+    await instance.write();
+    await state.get(this.IMPORT_INSTANCE_HANDLER)(state, instance, csvRecord);
+  }
+
+  static async action_import(state) {/***/}
 
   static async action_import_post(state) {
     const $_REQUEST = state.get(ControllerMixinMultipartForm.REQUEST_DATA);
@@ -130,11 +136,5 @@ export default class ControllerMixinImport extends ControllerMixin {
         createdCSVRecords.push(Object.assign({id: newRecord.id}, result));
       })
     );
-  }
-
-  static async writeRecord(state, instance, csvRecord){
-    Object.assign(instance, csvRecord);
-    await instance.write();
-    await state.get(this.IMPORT_INSTANCE_HANDLER)(state, instance, csvRecord);
   }
 }

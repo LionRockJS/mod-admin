@@ -101,6 +101,8 @@ export default class ControllerAdmin extends Controller {
   async action_import() {}
 
   async action_import_post() {}
+
+  async action_upload_post() {}
 }
 
 
