@@ -43,7 +43,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
 
     const data = {
       items: state.get(ControllerMixinORMRead.INSTANCES),
-      model,
+      type: model,
       page,
       maxPage,
       query: querystring.encode(query),
