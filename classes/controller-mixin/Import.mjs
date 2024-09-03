@@ -32,7 +32,7 @@ export default class ControllerMixinImport extends ControllerMixin {
       skip_records_with_error: true
     });
     if(!state.get(this.IMPORT_CSV_HANDLER))state.set(this.IMPORT_CSV_HANDLER, async (state, csvHeader, csvRecords) => {/***/});
-    if(!state.get(this.IMPORT_INSTANCE_HANDLER))state.set(this.IMPORT_CSV_HANDLER, async (state, instance, csvRecord) => {/***/});
+    if(!state.get(this.IMPORT_INSTANCE_HANDLER))state.set(this.IMPORT_INSTANCE_HANDLER, async (state, instance, csvRecord) => {/***/});
   }
 
   static async readCSV(state){
@@ -51,7 +51,11 @@ export default class ControllerMixinImport extends ControllerMixin {
     const header = records.shift().map(it => it.trim());
 
     //process by csv handler
-    await state.get(this.IMPORT_CSV_HANDLER)(state, header, records);
+    const handler = state.get(this.IMPORT_CSV_HANDLER);
+    if(handler){
+      await handler(state, header, records);
+    }
+
     return {
       header,
       records
@@ -61,14 +65,18 @@ export default class ControllerMixinImport extends ControllerMixin {
   static async writeRecord(state, instance, csvRecord){
     Object.assign(instance, csvRecord);
     await instance.write();
-    await state.get(this.IMPORT_INSTANCE_HANDLER)(state, instance, csvRecord);
+    const handler = state.get(this.IMPORT_INSTANCE_HANDLER);
+
+    if(handler){
+      await handler(state, instance, csvRecord);
+    }
   }
 
   static async action_import(state) {/***/}
 
   static async action_import_post(state) {
     const $_REQUEST = state.get(ControllerMixinMultipartForm.REQUEST_DATA);
-    await ControllerMixinUpload.action_upload(state);
+    await ControllerMixinUpload.action_upload_post(state);
     const {header: csvHeader, records} = await this.readCSV(state);
 
     const importUniqueKey = state.get(this.UNIQUE_KEY);
@@ -89,9 +97,9 @@ export default class ControllerMixinImport extends ControllerMixin {
 
     const columns = csvHeader.map(it => {
       const result = headerColumnMap.get(it);
-      if(!result)throw new Error(`${it} is not mapped to database column`);
+      if(!result)return it;
       return result;
-    });
+    }).filter(it => it !== null);
 
     //fetch duplicated records
     const uniqueKey = state.get(this.UNIQUE_KEY);
