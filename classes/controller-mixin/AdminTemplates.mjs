@@ -4,8 +4,7 @@ import pluralize from "pluralize";
 import camelize from "camelize";
 import decamelize from "decamelize";
 
-import { Controller, ControllerMixin } from '@lionrockjs/mvc';
-import { Central, ORM, ControllerMixinView, ControllerMixinDatabase } from '@lionrockjs/central';
+import { Controller, ControllerMixin, Central, ORM, ControllerMixinView, ControllerMixinDatabase } from '@lionrockjs/central';
 import { ControllerMixinORMRead, ControllerMixinORMDelete } from '@lionrockjs/mixin-orm';
 import { ModelUser as User, ModelLogin as Login } from '@lionrockjs/mod-auth';
 
@@ -13,9 +12,9 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
   static ADMIN_DATABASE_KEY = 'adminDBKey';
   static PATH_PREFIX = 'pathPrefix';
   static MODEL = 'orm_model';
-  static INSTANCE = 'instance';
   static PAGE_SIZE = 'pageSize';
   static TEMPLATES = 'templates';
+  static DEFAULT_TEMPLATES = 'defaultTemplates';
 
   static init(state) {
     if(!state.get(this.PATH_PREFIX)) state.set(this.PATH_PREFIX, 'admin/');
@@ -28,13 +27,20 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       ['create', 'templates/admin/edit'],
       ['dialog', 'templates/admin/dialog'],
     ]));
+    if(!state.get(this.DEFAULT_TEMPLATES)) state.set(this.DEFAULT_TEMPLATES, new Map([
+      ['index', 'templates/admin/index'],
+      ['read', 'templates/admin/edit'],
+      ['edit', 'templates/admin/edit'],
+      ['create', 'templates/admin/edit'],
+      ['dialog', 'templates/admin/dialog'],
+    ]));
   }
 
   static classObject(Model) {
     return { ...Model, className: Model?.name };
   }
 
-  static async listView(state, template) {
+  static async listView(state, template, defaultTemplate) {
     const query = state.get(Controller.STATE_QUERY);
     const model = this.classObject(state.get(ControllerMixinORMRead.MODEL));
 
@@ -51,10 +57,10 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       end: query.end
     };
     Object.assign(state.get(ControllerMixinView.LAYOUT).data, data);
-    ControllerMixinView.setTemplate(state, template, data);
+    ControllerMixinView.setTemplate(state, template, data, defaultTemplate);
   }
 
-  static async readView(state, template) {
+  static async readView(state, template, defaultTemplate) {
     const params = state.get(Controller.STATE_PARAMS);
     const model = this.classObject(state.get(ControllerMixinORMRead.MODEL));
 
@@ -74,7 +80,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     };
 
     state.get(ControllerMixinView.LAYOUT).data.item = instance;
-    ControllerMixinView.setTemplate(state, template, data);
+    ControllerMixinView.setTemplate(state, template, data, defaultTemplate);
   }
 
   static async entitySupport(state) {
@@ -298,15 +304,15 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
   }
 
   static async action_index(state) {
-    await this.listView(state, state.get(this.TEMPLATES).get('index'));
+    await this.listView(state, state.get(this.TEMPLATES).get('index'), state.get(this.DEFAULT_TEMPLATES).get('index'));
   }
 
   static async action_read(state) {
-    await this.readView(state, state.get(this.TEMPLATES).get('read'));
+    await this.readView(state, state.get(this.TEMPLATES).get('read'), state.get(this.DEFAULT_TEMPLATES).get('read'));
   }
 
   static async action_edit(state) {
-    await this.readView(state, state.get(this.TEMPLATES).get('edit'));
+    await this.readView(state, state.get(this.TEMPLATES).get('edit'), state.get(this.DEFAULT_TEMPLATES).get('edit'))
   }
 
   static async action_create(state) {
