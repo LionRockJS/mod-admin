@@ -54,7 +54,18 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       maxPage,
       query: querystring.encode(query),
       start: query.start,
-      end: query.end
+      end: query.end,
+      paginate: {
+        "current_offset": page * state.get(this.PAGE_SIZE),
+        "current_page": page,
+        "items": state.get(ControllerMixinORMRead.COUNT),
+        "page_param": model.className,
+        "page_size": state.get(this.PAGE_SIZE),
+        "pages": maxPage,
+        "parts": [],
+        "previous": {},
+        "next": {},
+      }
     };
     Object.assign(state.get(ControllerMixinView.LAYOUT).data, data);
     ControllerMixinView.setTemplate(state, template, data, defaultTemplate);
