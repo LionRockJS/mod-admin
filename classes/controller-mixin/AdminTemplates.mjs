@@ -56,7 +56,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       start: query.start,
       end: query.end,
       paginate: {
-        "current_offset": page * state.get(this.PAGE_SIZE),
+        "current_offset": (page-1) * state.get(this.PAGE_SIZE),
         "current_page": page,
         "items": state.get(ControllerMixinORMRead.COUNT),
         "page_param": model.className,
