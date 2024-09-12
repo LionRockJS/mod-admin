@@ -1,15 +1,15 @@
-import {ControllerMixinDatabase, ORM, Central, ControllerMixinView} from '@lionrockjs/central';
+import { ControllerMixinViewData, Controller, ControllerMixinDatabase, ORM, Central, ControllerMixinView} from '@lionrockjs/central';
 import { ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
-import ControllerTemplate from '../ControllerTemplate.mjs';
 
-export default class ControllerHome extends ControllerTemplate{
+export default class ControllerHome extends Controller{
   static mixins = [
-    ...ControllerTemplate.mixins,
-    ControllerMixinDatabase
+    ControllerMixinView,
+    ControllerMixinDatabase,
+    ControllerMixinViewData
   ]
 
   constructor(request) {
-    super(request, 'home');
+    super(request);
 
     this.state.get(ControllerMixinDatabase.DATABASE_MAP)
       .set('admin', `${Central.config.auth.databasePath}/admin.sqlite`);
@@ -23,5 +23,3 @@ export default class ControllerHome extends ControllerTemplate{
     ControllerMixinView.setTemplate(this.state, 'templates/home', { roles, message: '', allowSignup: usercount === 0 });
   }
 }
-
-

@@ -63,8 +63,12 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
         "page_size": state.get(this.PAGE_SIZE),
         "pages": maxPage,
         "parts": [],
-        "previous": {},
-        "next": {},
+        "previous": {
+          is_link: page > 1,
+        },
+        "next": {
+          is_link: page < maxPage,
+        },
       }
     };
     Object.assign(state.get(ControllerMixinView.LAYOUT).data, data);

@@ -1,5 +1,4 @@
-import { Controller } from '@lionrockjs/mvc'
-import { Central, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView  } from '@lionrockjs/central';
+import { Central, Controller, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView, ControllerMixinViewData  } from '@lionrockjs/central';
 import { ControllerMixinMultipartForm } from '@lionrockjs/mixin-form';
 import { ControllerMixinORMRead, ControllerMixinORMWrite, ControllerMixinORMInput, ControllerMixinORMDelete } from '@lionrockjs/mixin-orm';
 
@@ -29,6 +28,7 @@ export default class ControllerAdmin extends Controller {
     ControllerMixinCRUDRedirect,
     ControllerMixinMime,
     ControllerMixinView,
+    ControllerMixinViewData,
     ControllerMixinAdminTemplates,
     ControllerMixinExport,
     ControllerMixinUpload,
