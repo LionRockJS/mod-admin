@@ -1,12 +1,18 @@
 {
   "sections": {
+    "header": {
+      "type": "orm-header",
+      "settings": {
+      }
+    },
     "main": {
-      "type": "text",
+      "type": "orm-list",
       "settings": {
       }
     }
   },
   "order": [
+    "header",
     "main"
   ]
 }
