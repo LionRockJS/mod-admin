@@ -50,7 +50,7 @@ export default class ControllerAdmin extends Controller {
       layout: 'layout/admin/default',
       databases: new Map(),
       database: 'admin',
-      pagesize: request.query.pagesize || 50,
+      pagesize: request.query.pagesize || Central.config.orm?.read_limit || 50,
       log_actions: new Set(['create', 'update', 'delete']),
       orderBy: new Map([[request.query.sort ?? 'created_at', request.query.order ?? 'DESC']]),
       templates: new Map([
