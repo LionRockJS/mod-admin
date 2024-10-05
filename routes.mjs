@@ -1,4 +1,4 @@
-import { RouteList } from '@lionrockjs/central';
+import { RouteList } from '@lionrockjs/router';
 import RouteCRUD from './classes/helper/CRUD.mjs';
 
 RouteList.add('/admin', 'controller/admin/Home');

@@ -1,4 +1,4 @@
-import { RouteList } from '@lionrockjs/central';
+import { RouteList } from '@lionrockjs/router';
 
 export default class HelperCRUD {
   static add(partialPath, controller, prefix = 'admin', weight = 5) {
