@@ -1,6 +1,5 @@
 import fs from 'node:fs';
-import { Central } from '@lionrockjs/central';
-import { Controller, ControllerMixin } from '@lionrockjs/mvc';
+import { Controller, ControllerMixin, Central } from '@lionrockjs/central';
 
 export default class ActionLogger extends ControllerMixin{
     static LOG_ACTIONS = 'logActions';

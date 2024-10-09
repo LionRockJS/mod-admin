@@ -1,5 +1,4 @@
-import { Controller } from '@lionrockjs/mvc'
-import { Central, ORM, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView } from '@lionrockjs/central';
+import { Controller, Central, ORM, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView } from '@lionrockjs/central';
 import { ControllerRegister, ModelUser as User } from '@lionrockjs/mod-auth';
 
 export default class ControllerSetup extends Controller{

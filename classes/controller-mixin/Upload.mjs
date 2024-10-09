@@ -1,8 +1,7 @@
 import path from 'node:path';
 import { stat, mkdir, copyFile, unlink } from 'node:fs/promises';
 
-import { ControllerMixin } from '@lionrockjs/mvc'
-import { Central } from '@lionrockjs/central';
+import { ControllerMixin, Central } from '@lionrockjs/central';
 import { ControllerMixinMultipartForm } from '@lionrockjs/mixin-form';
 
 export default class ControllerMixinUpload extends ControllerMixin {

@@ -1,4 +1,4 @@
-import { Controller, ControllerMixin } from '@lionrockjs/mvc'
+import { Controller, ControllerMixin } from '@lionrockjs/central'
 
 export default class ControllerMixinCRUDRedirect extends ControllerMixin {
   static PATH_PREFIX = 'crudPathPrefix';

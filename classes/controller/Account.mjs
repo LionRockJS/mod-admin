@@ -2,8 +2,7 @@
  override ControllerAccount in @lionrockjs/mod-auth
 ***/
 
-import { Controller } from '@lionrockjs/mvc';
-import { ControllerMixinView } from '@lionrockjs/central';
+import { Controller, ControllerMixinView } from '@lionrockjs/central';
 import { ControllerMixinAccount, ModelUser as User } from '@lionrockjs/mod-auth';
 import { ControllerMixinAccountPassword } from '@lionrockjs/adapter-auth-password';
 import ControllerAdmin from '../ControllerAdmin.mjs';

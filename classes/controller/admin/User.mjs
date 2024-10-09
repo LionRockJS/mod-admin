@@ -1,5 +1,4 @@
-import { Controller } from '@lionrockjs/mvc';
-import { ControllerMixinDatabase, ControllerMixinView, ORM } from '@lionrockjs/central';
+import { Controller, ControllerMixinDatabase, ControllerMixinView, ORM } from '@lionrockjs/central';
 import { ControllerMixinAuth, ControllerMixinRegister, ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
 import { IdentifierPassword } from '@lionrockjs/adapter-auth-password';
 import { ControllerMixinORMRead } from '@lionrockjs/mixin-orm';

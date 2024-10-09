@@ -1,10 +1,9 @@
 import { readFile } from 'node:fs/promises';
 import { parse } from 'csv-parse/sync';
 
-import { ControllerMixin } from '@lionrockjs/mvc'
 import { ControllerMixinORMRead } from '@lionrockjs/mixin-orm';
 import { ControllerMixinMultipartForm } from '@lionrockjs/mixin-form';
-import { ORM, ControllerMixinDatabase } from '@lionrockjs/central';
+import { ControllerMixin, ORM, ControllerMixinDatabase } from '@lionrockjs/central';
 import ControllerMixinUpload from './Upload.mjs';
 
 export default class ControllerMixinImport extends ControllerMixin {
