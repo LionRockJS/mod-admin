@@ -65,7 +65,10 @@ export default class ControllerAdmin extends Controller {
     this.state.set(ControllerAdmin.STATE_MODEL, model);
 
     const databaseMap = this.state.get(ControllerMixinDatabase.DATABASE_MAP);
-    Central.config.admin.databaseMap.forEach((v, k) => databaseMap.set(k, v));
+    databaseMap.set(
+      Central.config.auth.databaseMapName,
+      Central.config.auth.databasePath + '/' + Central.config.auth.userDatabase
+    );
 
     this.options.databases.forEach((v, k) => databaseMap.set(k, v));
 
