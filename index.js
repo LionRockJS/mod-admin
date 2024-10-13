@@ -1,6 +1,7 @@
-import url from "node:url";
-const dirname = url.fileURLToPath(new URL('.', import.meta.url)).replace(/\/$/, '');
-export default {dirname}
+export default {
+  filename: import.meta.url,
+  configs: ['admin', 'edm', 'register']
+}
 
 import ControllerAdmin from './classes/ControllerAdmin.mjs';
 import HelperCRUD from './classes/helper/CRUD.mjs';
