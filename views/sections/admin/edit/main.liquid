@@ -1,0 +1,50 @@
+<div class="container mx-auto px-4">
+  <header>
+    <h1 class="admin-title">{{ title | capitalize }}</h1>
+    <div>{{ item.id }}</div>
+  </header>
+
+  <form action="/admin/{{model.tableName}}/{{item.id | default: 'new'}}" method="post" enctype="multipart/form-data">
+    {% if destination != blank %}
+      <input type="hidden" name="destination" value="{{destination}}" />
+    {% endif %}
+    <ul>
+      {% for field in fields %}
+        {% render 'edit_fields.liquid', field : field %}
+      {% endfor %}
+    </ul>
+
+    <p>belongs / associate</p>
+    <ul>
+      {% for parent in belongsTo %}
+        {% render 'edit_belongs.liquid', item : parent %}
+      {% endfor %}
+    </ul>
+
+    <p>belongs to many</p>
+    <ul>
+      {% for sibling in belongsToMany %}
+        {% render 'edit_many.liquid', item : sibling, owner:item %}
+      {% endfor %}
+    </ul>
+
+    <p>has Many</p>
+    <ul>
+      {% for child in hasMany %}
+        {% render 'edit_has_many.liquid', item : child, id:item.id, owner: item %}
+      {% endfor %}
+    </ul>
+
+    {% if checkpoint != blank %}
+      <a href="{{ checkpoint }}">Back</a>
+    {% else %}
+      <a href="/admin/{{model.tableName}}">Back</a>
+    {% endif %}
+
+
+    {% if item.id != blank %}
+      <a href="/admin/{{model.tableName}}/delete/{{item.id}}{% if checkpoint != blank %}?cp={{ checkpoint }}{% endif %}">Delete</a>
+    {% endif %}
+    <input type="submit">
+  </form>
+</div>

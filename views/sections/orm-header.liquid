@@ -1,0 +1,9 @@
+<div class="container mx-auto px-4 md:flex md:items-center md:justify-between">
+    <div class="min-w-0 flex-1">
+      <div>orm-header</div>
+      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">{{ model.tableName | capitalize }}</h2>
+    </div>
+    <div class="mt-4 flex md:ml-4 md:mt-0">
+      <a class="button-secondary" href="/admin/{{model.tableName}}/new">Create {{model.name}}</a>
+    </div>
+</div>
