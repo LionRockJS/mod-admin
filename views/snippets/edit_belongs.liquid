@@ -1,0 +1,17 @@
+<li>
+    <h3>{{item.foreign_key}}: {{item.model.className}}</h3>
+
+    <select name=":{{item.foreign_key}}">
+        {% if item.items == blank %}
+            <option value="">no {{item.model.className}} found.</option>
+        {% else %}
+            <option value="">Please select</option>
+        {% endif %}
+
+        {% for x in item.items %}
+            <option value="{{x.id}}"{% if x.id == item.instance[item.foreign_key] %} selected="selected"{% endif %}>{{ item.instance[item.foreign_key] }} - {{ x.id }} - {{x.name | default: x.id}}</option>
+        {% endfor %}
+    </select>
+
+    <!-- belongs / associate should not create new instance by other model. -->
+</li>

@@ -1,0 +1,23 @@
+<li>
+    <h3>{{item.model.className}}</h3>
+    {% if item.items == blank %}
+        no {{item.model.className}} found.
+    {% else %}
+        <input type="hidden" name="*{{item.model.className}}[]" value="replace">
+        <ul>
+            {% for x in item.items %}
+                <li>
+                    <input type="checkbox" id="{{item.model.className}}{{x.id}}" name="*{{item.model.className}}[]" value="{{x.id}}"{% if x.linked %} checked="checked"{% endif %}/>
+                    <label for="{{item.model.className}}{{x.id}}">{{x.name | default:x.id}}</label>
+
+                    <!-- should not edit many to many from other model -->
+                    <!-- <a href="/admin/{{item.model.tableName}}/{{ x.id }}">[edit]</a> -->
+                </li>
+            {% endfor %}
+            <div class="checkpoint-link">
+                <a href="/admin/b/{{model.tableName}}-{{ owner.id }}/{{ item.model.tableName }}/new{% if checkpoint != blank %}?cp={{ checkpoint }}{% endif %}">new {{item.model.className}}</a>
+            </div>
+        </ul>
+    {% endif %}
+
+</li>

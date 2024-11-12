@@ -1,0 +1,23 @@
+{% comment %}
+label : fieldName,
+name  : `${scope}:${fieldName}`,
+type  : fieldType[0],
+required : (fieldType[1] === 'NOT NULL'),
+defaultValue : fieldType[2] || '',
+value : value
+{% endcomment %}
+
+<li>
+    <label for="{{field.name}}">{{field.label}}</label>
+
+    {% if field.label == 'content' %}
+        <textarea name="{{field.name}}" {% if field.required %}required = "required"{% endif %}  placeholder="{{field.label | escape}}">{{field.value | default : field.defaultValue | escape}}</textarea>
+    {% elsif field.label == 'published_at' %}
+        <input name="{{field.name}}" type="datetime-local" value="{{field.value | default : field.defaultValue | escape}}" {% if field.required %}required = "required"{% endif %} placeholder="{{field.label | escape}}"/>
+    {% else %}
+        <input name="{{field.name}}" type="text" value="{{field.value | default : field.defaultValue | escape}}" {% if field.required %}required = "required"{% endif %} placeholder="{{field.label | escape}}"/>
+    {% endif %}
+
+    {% if field.required %}*{% endif %}
+
+</li>

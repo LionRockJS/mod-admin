@@ -1,0 +1,30 @@
+{% liquid
+  assign slug = page_type | default: slug | default: "default"
+  assign label = page_type_name | default: label | default: "Default"
+%}
+
+{% schema %}
+{
+  "name": "Breadcrumb",
+  "settings": [
+  ],
+  "blocks":[],
+  "presets": []
+}
+{% endschema %}
+<div class="container mx-auto px-4 flex flex-row mb-8">
+  <nav class="w-2/3 hidden sm:flex" aria-label="breadcrumb">
+    <ol role="list" class="flex items-center space-x-4 text-sm font-medium">
+      <li class="flex items-center"><a class="me-4 text-gray-500 hover:text-gray-700" href="/admin"><i class="fa-solid fa-house"></i></a> <i class="fa-sharp fa-regular fa-chevron-right"></i></li>
+      {% for block in section.blocks %}
+        <li class="flex items-center"><a class="me-4 text-gray-500 hover:text-gray-700" href="{{ block.settings.url }}">{{ block.settings.text }}</a> <i class="fa-sharp fa-regular fa-chevron-right"></i></li>
+      {% endfor %}
+
+
+      <li class="flex items-center" aria-current="page">{{ item.name | default: item.id }}</li>
+    </ol>
+  </nav>
+  <div class="w-1/3 text-end">
+    <a class="button-secondary" href="/admin/contents/create/{{ slug }}">New {{ slug }}</a>
+  </div>
+</div>

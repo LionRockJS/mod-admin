@@ -1,0 +1,43 @@
+<li>
+    <h3>{{item.model.className}}.{{ item.fk }}</h3>
+    {% if item.items == blank %}
+    no {{item.model.className}} found.
+    {% else %}
+    <ul>
+        {% for x in item.items %}
+        <li>
+            <div class="checkpoint-link">
+                {{x.name | default:x.title | default:x.id }}
+                <a href="/admin/{{item.model.tableName}}/{{ x.id }}{% if checkpoint != blank %}?cp={{ checkpoint }}{% endif %}" class="edit">[edit]</a>
+            </div>
+
+            {% for field in x.fields %}
+                {% if field.label == 'content' %}
+                    <textarea name="{{field.name}}" {% if field.required %}required = "required"{% endif %} placeholder="{{field.label | escape}}">{{field.value | default : field.defaultValue | escape}}</textarea>
+                    {% elsif field.label == 'published_at' %}
+                    <input name="{{field.name}}" type="datetime-local" value="{{field.value | default : field.defaultValue | escape}}" {% if field.required %}required = "required"{% endif %}  placeholder="{{field.label | escape}}"/>
+                {% else %}
+                    <input name="{{field.name}}" type="text" value="{{field.value | default : field.defaultValue | escape}}" {% if field.required %}required = "required"{% endif %}  placeholder="{{field.label | escape}}"/>
+                {% endif %}
+                {% if field.required %}<span>*</span>{% endif %}
+            {% endfor %}
+        </li>
+        {% endfor %}
+
+    </ul>
+    {% endif %}
+    {% if id != blank %}
+        <div class="checkpoint-link">
+            <a href="/admin/b/{{model.tableName}}-{{ owner.id }}/{{ item.model.tableName }}/new{% if checkpoint != blank %}?cp={{ checkpoint }}{% endif %}">new {{item.model.className}}</a>
+        </div>
+    {% endif %}
+
+    <ul>
+        {% for field in item.fields %}
+            <li>
+                <input name="{{ item.model.className }}():{{field.name}}" type="text" value="" placeholder="{{field.name | escape}}"/>
+                {% if field.required %}<span>*</span>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</li>
