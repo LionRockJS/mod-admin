@@ -1,0 +1,53 @@
+{% for parent in belongsTo %}
+{% assign person = parent.items[0] %}
+{% endfor %}
+
+<div class="container mx-auto px-4">
+  <div class="mb-4">
+    <h2 class="text-3xl pb-0 !mb-0 leading-1">Edit {{ person.first_name }}</h2>
+    <div class="text-xs">{{ item.id }}</div>
+  </div>
+
+  <form action="/admin/{{model.tableName}}/{{item.id | default: 'new'}}" method="post" enctype="multipart/form-data">
+      {% for sibling in belongsToMany %}
+        <input type="hidden" name="*{{sibling.model.className}}[]" value="replace">
+        <div class="flex flex-row">
+          {% for x in sibling.items %}
+            <div class="me-4">
+              <input type="checkbox" id="{{sibling.model.className}}{{x.id}}" name="*{{sibling.model.className}}[]" value="{{x.id}}"{% if x.linked %} checked="checked"{% endif %} class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"/>
+              <label class="select-none font-medium text-gray-900" for="{{sibling.model.className}}{{x.id}}">{{x.name | default:x.id}}</label>
+
+              <!-- should not edit many to many from other model -->
+              <!-- <a href="/admin/{{item.model.tableName}}/{{ x.id }}">[edit]</a> -->
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+<hr class="my-4">
+<div>
+{% for child in hasMany %}
+  {% if child.model.tableName == "logins" %}
+    <h2 class="text-3xl">Last Logins</h2>
+    {% assign items = child.items | reverse %}
+    {% for item in items %}
+      {% if forloop.index0 < 10 %}
+      <span class="inline-block rounded text-xs px-2 py-1 bg-gray-400 text-white"><span class="text-gray-800"> IP: {{ item.ip }} </span> {{ item.updated_at | append: 'z'| date: '%d %b %Y %H:%M:%S' }}</span>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+</div>
+<hr class="my-4">
+    {% if item.id != blank %}
+      <a href="/admin/{{model.tableName}}/delete/{{item.id}}{% if checkpoint != blank %}?cp={{ checkpoint }}{% endif %}" class="button-danger">Delete</a>
+    {% endif %}
+
+    {% if checkpoint != blank %}
+      <a href="{{ checkpoint }}" class="button-secondary">Back</a>
+    {% else %}
+      <a href="/admin/{{model.tableName}}" class="button-secondary">Back</a>
+    {% endif %}
+
+    <input type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+  </form>
+</div>

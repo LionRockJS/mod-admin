@@ -9,7 +9,10 @@ import ControllerMixinAdminTemplates from "../../controller-mixin/AdminTemplates
 export default class ControllerAdminUser extends ControllerAdmin{
   constructor(request) {
     super(request, User, {roles: new Set(['admin'])});
-    this.state.get(ControllerMixinAdminTemplates.TEMPLATES).set('create', 'templates/admin/user/create');
+    this.state.get(ControllerMixinAdminTemplates.TEMPLATES)
+      .set('create', 'templates/admin/user/create')
+      .set('read', 'templates/admin/user/edit')
+      .set('edit', 'templates/admin/user/edit');
   }
 
   async action_index(){

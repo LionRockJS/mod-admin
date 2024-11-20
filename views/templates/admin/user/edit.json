@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "header": {
+      "type": "orm-header",
+      "settings": {
+      }
+    },
+    "main": {
+      "type": "admin/user/edit",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "header",
+    "main"
+  ]
+}
