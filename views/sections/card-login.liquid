@@ -1,0 +1,25 @@
+{% if section.settings.enabled == "false" %}
+{% else %}
+<form action="/login" method="post">
+    <input type="hidden" name="destination" value="/admin" />
+    <div>
+        <h2 class="text-h1 font-bold font-sans text-primary uppercase mb-4">{{ title | default: "Sign in." }}</h2>
+        <div class="font-sans font-base text-primary text-3xl">
+            {{message}}
+        </div>
+    </div>
+    <div class="mt-32">
+        <div class="w-2/3 border-0 border-b-2 border-primary bg-transparent p-0 focus-within:border-highlight mb-3 transition duration-500">
+            <label for="username" class="font-light font-sans text-gray-500">User Name</label>
+            <input type="text" name="username" id="username" class="transition-[background] duration-[50000s] block font-sans font-[400] text-3xl w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-200 focus:outline-none focus:text-highlight" required>
+        </div>
+
+        <div class="w-2/3 border-0 border-b-2 border-primary bg-transparent p-0 focus-within:border-highlight mb-3 transition duration-500  ">
+            <label for="password" class="font-light font-sans text-gray-500">Password</label>
+            <input type="password" name="password" id="password" class="transition-[background] duration-[50000s] block font-sans font-[400] text-3xl w-full bg-transparent grow p-0 text-gray-800 placeholder:text-gray-200 focus:outline-none focus:text-highlight" required>
+        </div>
+
+        <button type="submit" class="transition duration-500 mt-16 w-1/2 rounded-lg bg-primary px-3 py-2 uppercase text-base leading-8 font-sans text-white hover:bg-highlight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Sign In</button>
+    </div>
+</form>
+{% endif %}

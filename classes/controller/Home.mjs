@@ -19,7 +19,8 @@ export default class ControllerHome extends Controller{
     const databases = this.state.get(ControllerMixinDatabase.DATABASES);
     const database = databases.get('admin');
     const usercount = await ORM.countAll(User, { database});
-    const roles = await ORM.readAll(Role, {database})
+    const roles = await ORM.readAll(Role, {database});
+
     ControllerMixinView.setTemplate(this.state, 'templates/home', { roles, message: '', allowSignup: usercount === 0 });
   }
 }

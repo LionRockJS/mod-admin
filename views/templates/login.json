@@ -2,7 +2,7 @@
   "wrapper": "div.container.mx-auto>div.w-full.md:w-\\[545px\\].bg-paper.border-x.border-black-500.min-h-\\[100vh\\].px-\\[24px\\].md:px-\\[55px\\].py-\\[144px\\]",
   "sections": {
     "main": {
-      "type": "orm-list",
+      "type": "card-login",
       "settings": {
       }
     }
