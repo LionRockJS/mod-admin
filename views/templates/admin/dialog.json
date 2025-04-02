@@ -16,8 +16,7 @@
             "url": "/admin"
           }
         ],
-        "header": "orm-header",
-        "section_1": "admin/edit/main",
+        "section_1": "admin/dialog",
         "section_2": "admin/navigation"
       }
     }
