@@ -1,5 +1,5 @@
 {
-  "wrapper": "div.container.mx-auto>div.w-full.md:w-\\[545px\\].bg-paper.border-x.border-black-500.min-h-\\[100vh\\].px-\\[24px\\].md:px-\\[55px\\].py-\\[144px\\]",
+  "wrapper": "div.container.container-columns",
   "sections": {
     "main": {
       "type": "card-login",

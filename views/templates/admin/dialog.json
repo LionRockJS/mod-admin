@@ -1,5 +1,5 @@
 {
-  "wrapper": "div.container.mx-auto.flex",
+  "wrapper": "div.container.container-columns",
   "sections": {
     "main": {
       "type": "admin/dashboard",

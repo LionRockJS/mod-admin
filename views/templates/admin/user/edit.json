@@ -1,4 +1,5 @@
 {
+  "wrapper": "div.container.container-columns",
   "sections": {
     "header": {
       "type": "orm-header",
