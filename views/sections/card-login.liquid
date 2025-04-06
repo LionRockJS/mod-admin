@@ -1,5 +1,6 @@
 {% if section.settings.enabled == "false" %}
 {% else %}
+<div class="panel-space">
 <form action="/login" method="post">
     <input type="hidden" name="destination" value="/admin" />
     <div>
@@ -22,4 +23,5 @@
         <button type="submit" class="transition duration-500 mt-16 w-1/2 rounded-lg bg-primary px-3 py-2 uppercase text-base leading-8 font-sans text-white hover:bg-highlight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">Sign In</button>
     </div>
 </form>
+</div>
 {% endif %}
