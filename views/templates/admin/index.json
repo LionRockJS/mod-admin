@@ -4,11 +4,12 @@
     "main": {
       "type": "admin/dashboard",
       "settings": {
+        "title": "dashboard",
         "section": "empty"
       }
     },
     "content": {
-      "type": "admin/content",
+      "type": "ui/content",
       "settings": {
         "breadcrumb": [
           {

@@ -1,19 +1,44 @@
 {
   "wrapper": "div.container.container-columns",
   "sections": {
-    "header": {
-      "type": "orm-header",
+    "main": {
+      "type": "admin/dashboard",
       "settings": {
+        "title": "Users",
+        "section": "empty"
       }
     },
-    "main": {
-      "type": "admin/user/edit",
+    "content": {
+      "type": "ui/content",
+      "settings": {
+        "breadcrumb": [
+          {
+            "label": "Home",
+            "url": "/admin"
+          },
+          {
+            "label": "Users",
+            "url": "/admin/users"
+          },
+          {
+            "label": "{{ item.id }}",
+            "url": "/admin/users/{{ item.id }}"
+          }
+        ],
+        "header": "orm-header",
+        "section_1": "admin/user/edit",
+        "section_2": "admin/navigation"
+      }
+    },
+
+    "header": {
+      "type": "orm-header",
       "settings": {
       }
     }
   },
   "order": [
-    "header",
-    "main"
+    "main",
+    "content"
   ]
 }

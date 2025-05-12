@@ -8,7 +8,7 @@
       }
     },
     "content": {
-      "type": "admin/content",
+      "type": "ui/content",
       "settings": {
         "breadcrumb": [
           {
@@ -24,7 +24,6 @@
   },
   "order": [
     "main",
-    "content",
-    "navigation"
+    "content"
   ]
 }
