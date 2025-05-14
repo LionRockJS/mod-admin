@@ -1,0 +1,29 @@
+{
+  "wrapper": "div.w-full",
+  "sections": {
+    "search": {
+        "type": "search",
+        "settings": {
+        }
+    },
+    "breadcrumb": {
+      "type": "breadcrumb",
+      "settings": {
+        "breadcrumb": "{{section.settings.breadcrumb | json }}",
+        "foo": "{{ item.id }}"
+      }
+    },
+    "columns": {
+      "type": "ui/column2",
+      "settings": {
+        "column_1": "{{section.settings.section_1}}",
+        "column_2": "{{section.settings.section_2}}"
+      }
+    }
+  },
+  "order": [
+    "search",
+    "breadcrumb",
+    "columns"
+  ]
+}

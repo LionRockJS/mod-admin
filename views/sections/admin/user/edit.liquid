@@ -1,20 +1,16 @@
-{% for parent in belongsTo %}
-{% assign person = parent.items[0] %}
-{% endfor %}
-
 <div class="container mx-auto px-4">
   <div class="mb-4">
-    <h2 class="text-3xl pb-0 !mb-0 leading-1">Edit {{ person.first_name }}</h2>
+    <h2 class="text-3xl pb-0 !mb-0 leading-1">Edit {{ item.person.first_name }}</h2>
     <div class="text-xs">{{ item.id }}</div>
   </div>
 
   <form action="/admin/{{model.tableName}}/{{item.id | default: 'new'}}" method="post" enctype="multipart/form-data">
       {% for sibling in belongsToMany %}
-        <input type="hidden" name="*{{sibling.model.className}}[]" value="replace">
+        <input type="hidden" name="~{{sibling.model.className}}[]" value="replace">
         <div class="flex flex-row">
           {% for x in sibling.items %}
             <div class="me-4">
-              <input type="checkbox" id="{{sibling.model.className}}{{x.id}}" name="*{{sibling.model.className}}[]" value="{{x.id}}"{% if x.linked %} checked="checked"{% endif %} class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"/>
+              <input type="checkbox" id="{{sibling.model.className}}{{x.id}}" name="~{{sibling.model.className}}[]" value="{{x.id}}"{% if x.linked %} checked="checked"{% endif %} class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"/>
               <label class="select-none font-medium text-gray-900" for="{{sibling.model.className}}{{x.id}}">{{x.name | default:x.id}}</label>
 
               <!-- should not edit many to many from other model -->

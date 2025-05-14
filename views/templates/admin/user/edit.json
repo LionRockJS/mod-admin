@@ -2,7 +2,7 @@
   "wrapper": "div.container.container-columns",
   "sections": {
     "main": {
-      "type": "admin/dashboard",
+      "type": "title",
       "settings": {
         "title": "Users",
         "section": "empty"

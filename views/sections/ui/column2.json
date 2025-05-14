@@ -1,0 +1,19 @@
+{
+  "wrapper": "div.flex",
+  "sections": {
+    "column_1": {
+      "type": "{{section.settings.column_1}}",
+      "settings": {
+      }
+    },
+    "column_2": {
+      "type": "{{section.settings.column_2}}",
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "column_1",
+    "column_2"
+  ]
+}

@@ -26,6 +26,11 @@ export default class ControllerAdminUser extends ControllerAdmin{
     );
   }
 
+  async action_read(){
+    const user = this.state.get(ControllerMixinORMRead.INSTANCE);
+    await user.eagerLoad({with: ['Person']});
+  }
+
   async action_create() {
     const database = this.state.get(ControllerMixinDatabase.DATABASES).get('admin')
     this.state.get(ControllerMixinView.TEMPLATE).data.roles = await ORM.readAll(Role, {database});

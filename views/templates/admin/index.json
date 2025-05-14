@@ -2,10 +2,9 @@
   "wrapper": "div.container.container-columns",
   "sections": {
     "main": {
-      "type": "admin/dashboard",
+      "type": "title",
       "settings": {
-        "title": "dashboard",
-        "section": "empty"
+        "title": "admin"
       }
     },
     "content": {
