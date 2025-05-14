@@ -1,4 +1,7 @@
-{%- assign breadcrumbs = section.settings.breadcrumb | parse_json -%}
+{% liquid
+  assign breadcrumbs = section.settings.breadcrumb | split: ","
+%}
+
 <div class="panel-space py-6 text-sm text-gray-500">
   {% for breadcrumb in breadcrumbs %}
     {% liquid
@@ -7,13 +10,18 @@
       else
         assign class_name = ""
       endif
+
+      assign parts = breadcrumb | split: ":"
+      assign label = parts[0]
+      assign url = parts[1]
     %}
 
-    {% if breadcrumb.url != "" %}
-      <a href="{{ breadcrumb.url }}" class="{{ class_name }}">{{ breadcrumb.label }}</a>
+    {% if url != blank %}
+      <a href="{{ url}}" class="{{ class_name }}">{{ label }}</a>
     {% else %}
-      <span class="{{ class_name }}">{{ breadcrumb.label }}</span>
+      <span class="{{ class_name }}">{{ label }}</span>
     {% endif %}
+
     {% if forloop.last == false %}
       <i class="fa-light fa-chevron-right"></i>
     {% endif %}

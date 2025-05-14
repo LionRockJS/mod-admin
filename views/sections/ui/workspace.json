@@ -1,0 +1,25 @@
+{
+  "wrapper": "div.container.container-columns",
+  "sections": {
+    "main": {
+      "type": "{{section.settings.section_main}}",
+      "settings": {
+        "title": "{{section.settings.title}}"
+      }
+    },
+    "content": {
+      "type": "ui/content",
+      "settings": {
+        "breadcrumb": "{{section.settings.breadcrumb}}",
+        "header": "{{section.settings.section_header}}",
+        "section_1": "{{section.settings.section_body}}",
+        "section_2": "{{section.settings.section_menu}}"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "content",
+    "navigation"
+  ]
+}

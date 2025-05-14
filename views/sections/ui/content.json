@@ -9,8 +9,7 @@
     "breadcrumb": {
       "type": "breadcrumb",
       "settings": {
-        "breadcrumb": "{{section.settings.breadcrumb | json }}",
-        "foo": "{{ item.id }}"
+        "breadcrumb": "{{section.settings.breadcrumb}}"
       }
     },
     "columns": {
