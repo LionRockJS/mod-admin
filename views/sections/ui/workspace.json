@@ -5,7 +5,7 @@
       "type": "{{section.settings.section_main}}",
       "settings": {
         "title": "{{section.settings.title}}",
-        "controller": "{{section.settings.controller}}"
+        "controller_slug": "{{section.settings.controller_slug}}"
       }
     },
     "content": {
