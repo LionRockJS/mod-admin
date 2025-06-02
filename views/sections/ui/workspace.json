@@ -13,6 +13,7 @@
       "settings": {
         "breadcrumb": "{{section.settings.breadcrumb}}",
         "header": "{{section.settings.section_header}}",
+        "section_search": "{{section.settings.section_search | default: \"search\"}}",
         "section_1": "{{section.settings.section_body}}",
         "section_2": "{{section.settings.section_menu}}"
       }

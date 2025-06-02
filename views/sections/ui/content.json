@@ -2,7 +2,7 @@
   "wrapper": "div.w-full",
   "sections": {
     "search": {
-        "type": "search",
+        "type": "{{section.settings.section_search}}",
         "settings": {
         }
     },
