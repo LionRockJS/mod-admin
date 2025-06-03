@@ -1,5 +1,5 @@
 {
-  "wrapper": "div.flex",
+  "wrapper": "div.flex.sticky.top-0",
   "sections": {
     "column_1": {
       "type": "{{section.settings.column_1}}",
