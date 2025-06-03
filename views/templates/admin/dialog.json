@@ -1,29 +1,18 @@
 {
-  "wrapper": "div.container.container-columns",
   "sections": {
     "main": {
-      "type": "admin/dashboard",
+      "type": "ui/workspace",
       "settings": {
-        "section": "empty"
-      }
-    },
-    "content": {
-      "type": "ui/content",
-      "settings": {
-        "breadcrumb": [
-          {
-            "label": "Home",
-            "url": "/admin"
-          }
-        ],
-        "section_1": "admin/dialog",
-        "section_2": "admin/navigation"
+        "section_main": "title",
+        "title": "{{ title }}",
+        "breadcrumb": "Home:/admin,Dashboard:",
+        "section_header": "empty",
+        "section_body": "admin/dialog",
+        "section_menu": "admin/navigation"
       }
     }
   },
   "order": [
-    "main",
-    "content",
-    "navigation"
+    "main"
   ]
 }
