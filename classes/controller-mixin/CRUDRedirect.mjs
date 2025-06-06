@@ -14,13 +14,16 @@ export default class ControllerMixinCRUDRedirect extends ControllerMixin {
 
   static async action_update(state) {
     const { params }  = state.get(Controller.STATE_REQUEST);
+    const { cp } = state.get(Controller.STATE_QUERY);
     const id = params.id || state.get(this.INSTANCE)?.id || '';
     const pathPrefix = state.get(this.PATH_PREFIX);
     const model = state.get(this.MODEL);
     const { tableName } = model;
 
-    const postData = state.get('$_POST');
-    state.set(this.REDIRECT, !postData?.destination ? `/${pathPrefix}${tableName}/${id}` : postData.destination);
+    const postData = state.get('$_POST'); //use "$_POST" rather than ControllerMixinMultipartForm.POST_DATA to avoid dependency.
+    const destination = postData?.destination || cp || `/${pathPrefix}${tableName}/${id}`;
+
+    state.set(this.REDIRECT, destination);
   }
 
   static async action_delete(state) {
