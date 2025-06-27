@@ -5,7 +5,7 @@ export default class ActionLogger extends ControllerMixin{
     static LOG_ACTIONS = 'logActions';
 
     static init(state){
-      if(!state.get(this.LOG_ACTIONS)) state.set(this.LOG_ACTIONS, new Set(['update', 'edit', 'delete']));
+      if(!state.get(this.LOG_ACTIONS)) state.set(this.LOG_ACTIONS, new Set(['update', 'delete', 'read', 'import', 'export']));
     }
 
     //log need to read session, it create in mixinSession.before()
