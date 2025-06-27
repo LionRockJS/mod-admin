@@ -39,7 +39,7 @@ export default class ControllerAdmin extends Controller {
     new Map([
       [ControllerMixinLoginRequire.REJECT_LANDING, options.rejectLanding || '/login'],
       [ControllerMixinLoginRequire.ALLOW_ROLES, options.roles || new Set(['admin', 'staff'])],
-      [ControllerMixinActionLogger.LOG_ACTIONS, options.log_actions || new Set(['create', 'update', 'delete'])],
+      [ControllerMixinActionLogger.LOG_ACTIONS, options.log_actions || new Set(['update', 'delete', 'read', 'import', 'export', 'upload_post'])],
       [ControllerMixinORMRead.MODEL, model],
       [ControllerMixinORMRead.DATABASE_KEY, options.database || 'admin'],
       [ControllerMixinView.LAYOUT_FILE, options.layout || 'layout/admin/default'],

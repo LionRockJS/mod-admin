@@ -5,7 +5,7 @@ export default class ActionLogger extends ControllerMixin{
     static LOG_ACTIONS = 'logActions';
 
     static init(state){
-      if(!state.get(this.LOG_ACTIONS)) state.set(this.LOG_ACTIONS, new Set(['update', 'delete', 'read', 'import', 'export']));
+      if(!state.get(this.LOG_ACTIONS)) state.set(this.LOG_ACTIONS, new Set(['update', 'delete', 'read', 'import', 'export', 'upload_post']));
     }
 
     //log need to read session, it create in mixinSession.before()
@@ -37,9 +37,8 @@ export default class ActionLogger extends ControllerMixin{
         const data = {
           time       : `${HH}:${MM}:${SS}`,
           user       : user,
-          params     : request.params,
-          ip         : request.ip,
-          ips        : request.ips,
+          ip         : state.get(Controller.STATE_CLIENT_IP),
+          params     : state.get(Controller.STATE_PARAMS),
         };
 
         fs.appendFile(file, `${JSON.stringify(data)}\n` , err => {if (err) throw err;});
