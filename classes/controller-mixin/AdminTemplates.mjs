@@ -300,6 +300,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
         action: state.get(Controller.STATE_ACTION),
         user_full_name: session.user_meta.full_name,
         user_role: session.roles.join(' role-'),
+        user_roles: session.roles,
         checkpoint: state.get(Controller.STATE_CHECKPOINT),
       },
     );

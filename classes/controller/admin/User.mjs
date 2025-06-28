@@ -10,6 +10,7 @@ export default class ControllerAdminUser extends ControllerAdmin{
   constructor(request) {
     super(request, User, {roles: new Set(['admin'])});
     this.state.get(ControllerMixinAdminTemplates.TEMPLATES)
+      .set('index', 'templates/admin/user/index')
       .set('create', 'templates/admin/user/create')
       .set('read', 'templates/admin/user/edit')
       .set('edit', 'templates/admin/user/edit');
