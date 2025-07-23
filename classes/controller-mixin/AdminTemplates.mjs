@@ -36,6 +36,21 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     ]));
   }
 
+  static after(state) {
+    const request = state.get(Controller.STATE_REQUEST);
+    const session = request.session;
+    const user = {
+      id: session.user_id,
+      name: session.user_meta.full_name,
+    };
+    console.log('Admin user:', user);
+
+    Object.assign(
+      state.get(ControllerMixinView.TEMPLATE).data,
+      { user }
+    )
+  }
+
   static classObject(Model) {
     return { ...Model, className: Model?.name };
   }

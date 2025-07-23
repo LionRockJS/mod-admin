@@ -27,9 +27,9 @@ export default class ControllerAdmin extends Controller {
     ControllerMixinORMDelete,
     ControllerMixinCRUDRedirect,
     ControllerMixinMime,
+    ControllerMixinAdminTemplates,
     ControllerMixinView,
     ControllerMixinViewData,
-    ControllerMixinAdminTemplates,
     ControllerMixinExport,
     ControllerMixinUpload,
     ControllerMixinImport]
