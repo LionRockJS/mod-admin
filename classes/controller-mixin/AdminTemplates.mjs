@@ -43,7 +43,6 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       id: session.user_id,
       name: session.user_meta.full_name,
     };
-    console.log('Admin user:', user);
 
     Object.assign(
       state.get(ControllerMixinView.TEMPLATE).data,
