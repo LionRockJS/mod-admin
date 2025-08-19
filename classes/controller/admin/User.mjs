@@ -38,12 +38,14 @@ export default class ControllerAdminUser extends ControllerAdmin{
   }
 
   async action_create_post(){
+    this.state.set(ControllerMixinRegister.STATE_ALLOW_POST_ASSIGN_ROLE, true);
     this.state.set(ControllerMixinAuth.IDENTIFIER, IdentifierPassword);
     this.state.set(ControllerMixinAuth.IDENTIFIER_DATABASE_NAME, 'admin');
     this.state.set(ControllerMixinAuth.DATABASE_NAME, 'admin');
     await ControllerMixinRegister.action_register_post(this.state);
 
-    await this.redirect('/logout');
+
+    await this.redirect('/admin/users');
   }
 
   async onExit(){

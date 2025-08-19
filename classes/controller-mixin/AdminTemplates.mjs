@@ -44,10 +44,13 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       name: session.user_meta.full_name,
     };
 
-    Object.assign(
-      state.get(ControllerMixinView.TEMPLATE).data,
-      { user }
-    )
+    const template = state.get(ControllerMixinView.TEMPLATE);
+    if(template && template.data){
+      Object.assign(
+        template.data,
+        { user }
+      )
+    }
   }
 
   static classObject(Model) {
