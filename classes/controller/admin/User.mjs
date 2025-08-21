@@ -31,6 +31,9 @@ export default class ControllerAdminUser extends ControllerAdmin{
   async action_read(){
     const user = this.state.get(ControllerMixinORMRead.INSTANCE);
     await user.eagerLoad({with: ['Person']});
+
+    const database = this.state.get(ControllerMixinDatabase.DATABASES).get('admin')
+    user.identifiers = await ORM.readBy(IdentifierPassword.Model, 'user_id', [user.id], { database , asArray:true});
   }
 
   async action_create() {
@@ -69,6 +72,7 @@ export default class ControllerAdminUser extends ControllerAdmin{
       await it.write();
     }));
 
+    await this.redirect('/admin/users/' + id + '?msg=Password updated successfully.');
   }
 
   async onExit(){
