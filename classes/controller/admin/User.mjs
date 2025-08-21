@@ -5,6 +5,7 @@ import { ControllerMixinORMRead } from '@lionrockjs/mixin-orm';
 
 import ControllerAdmin from '../../ControllerAdmin.mjs';
 import ControllerMixinAdminTemplates from "../../controller-mixin/AdminTemplates.mjs";
+import { ControllerMixinMultipartForm } from '@lionrockjs/mixin-form';
 
 export default class ControllerAdminUser extends ControllerAdmin{
   constructor(request) {
@@ -46,6 +47,28 @@ export default class ControllerAdminUser extends ControllerAdmin{
 
 
     await this.redirect('/admin/users');
+  }
+
+  async action_change_password_post(){
+    const {id} = this.state.get(Controller.STATE_PARAMS);
+    const $_POST = this.state.get(ControllerMixinMultipartForm.POST_DATA);
+    const database = this.state.get(ControllerMixinDatabase.DATABASES).get('admin')
+
+    const newPassword = $_POST['new-password'];
+
+    const identifierInstances = await ORM.readBy(IdentifierPassword.Model, 'user_id', [id], { database , asArray:true});
+
+    //check identifier exist
+    if (identifierInstances.length === 0){
+      throw new Error('No Password Identifier associate to this user.');
+    }
+
+    //update identifier record
+    await Promise.all(identifierInstances.map(async it => {
+      it.hash = await IdentifierPassword.hash(id, it.name, newPassword);
+      await it.write();
+    }));
+
   }
 
   async onExit(){
