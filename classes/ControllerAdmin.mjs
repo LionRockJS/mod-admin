@@ -1,11 +1,10 @@
-import { Central, Controller, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView, ControllerMixinViewData  } from '@lionrockjs/central';
+import { Central, Controller, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView, ControllerMixinViewData, ControllerMixinActionLogger  } from '@lionrockjs/central';
 import { ControllerMixinMultipartForm } from '@lionrockjs/mixin-form';
 import { ControllerMixinORMRead, ControllerMixinORMWrite, ControllerMixinORMInput, ControllerMixinORMDelete } from '@lionrockjs/mixin-orm';
 
 import { ControllerMixinLoginRequire } from '@lionrockjs/mod-auth';
 import { ControllerMixinSession } from '@lionrockjs/mixin-session';
 
-import ControllerMixinActionLogger from './controller-mixin/ActionLogger.mjs';
 import ControllerMixinAdminTemplates from './controller-mixin/AdminTemplates.mjs';
 import ControllerMixinCRUDRedirect from './controller-mixin/CRUDRedirect.mjs';
 import ControllerMixinExport from './controller-mixin/Export.mjs';
