@@ -10,6 +10,10 @@ import ControllerMixinUpload from './classes/controller-mixin/Upload.mjs';
 import ControllerMixinImport from './classes/controller-mixin/Import.mjs';
 import ControllerMixinAdminTemplates from './classes/controller-mixin/AdminTemplates.mjs';
 import ControllerMixinCRUDRedirect from './classes/controller-mixin/CRUDRedirect.mjs';
+import ControllerAdminHome from './classes/controller/admin/Home.mjs';
+import ControllerAdminUser from './classes/controller/admin/User.mjs';
+import ControllerAdminUserRole from './classes/controller/admin/UserRole.mjs';
+import ControllerSetup from './classes/controller/Setup.mjs';
 
 /**
  *
@@ -22,5 +26,9 @@ export {
   ControllerMixinUpload,
   ControllerMixinImport,
   ControllerMixinAdminTemplates,
-  ControllerMixinCRUDRedirect
+  ControllerMixinCRUDRedirect,
+  ControllerAdminHome,
+  ControllerAdminUser,
+  ControllerAdminUserRole,
+  ControllerSetup
 };
