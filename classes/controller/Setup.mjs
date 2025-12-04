@@ -10,7 +10,10 @@ export default class ControllerSetup extends Controller{
   constructor(request){
     super(request);
     this.state.get(ControllerMixinDatabase.DATABASE_MAP)
-      .set(Central.config.auth.databaseMapName, Central.config.auth.databasePath + '/'+ Central.config.auth.userDatabase);
+      .set(
+        Central.config.auth.databaseMapName, 
+        Central.config.auth.databaseMap.get(Central.config.auth.databaseMapName)
+      );
   }
 
   async action_setup_post(){

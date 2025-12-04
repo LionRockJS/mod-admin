@@ -12,7 +12,10 @@ export default class ControllerHome extends Controller{
     super(request);
 
     this.state.get(ControllerMixinDatabase.DATABASE_MAP)
-      .set('admin', `${Central.config.auth.databasePath}/admin.sqlite`);
+      .set(
+        Central.config.auth.databaseMapName, 
+        Central.config.auth.databaseMap.get(Central.config.auth.databaseMapName)
+      );
   }
 
   async action_index() {
