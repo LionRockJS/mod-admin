@@ -63,11 +63,12 @@ export default class ControllerAdmin extends Controller {
 
     this.state.set(ControllerAdmin.STATE_MODEL, model);
 
-    this.state.get(ControllerMixinDatabase.DATABASE_MAP)
-      .set(
-        Central.config.auth.databaseMapName, 
-        Central.config.auth.databaseMap.get(Central.config.auth.databaseMapName)
-      );
+    const databaseMap = this.state.get(ControllerMixinDatabase.DATABASE_MAP);
+
+    databaseMap.set(
+      Central.config.auth.databaseMapName, 
+      Central.config.auth.databaseMap.get(Central.config.auth.databaseMapName)
+    );
 
     this.options.databases.forEach((v, k) => databaseMap.set(k, v));
 
