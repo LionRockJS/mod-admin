@@ -1,0 +1,84 @@
+import { ControllerMixinDatabase, ControllerMixinView, ORM } from '@lionrockjs/central';
+import { ControllerState, Controller } from '@lionrockjs/mvc';
+import { ControllerMixinAuth, ControllerMixinRegister, ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
+import { IdentifierPassword } from '@lionrockjs/adapter-auth-password';
+import { ControllerMixinORMRead } from '@lionrockjs/mixin-orm';
+
+import ControllerAdmin from '../../ControllerAdmin.mjs';
+import ControllerMixinAdminTemplates from "../../controller-mixin/AdminTemplates.mjs";
+import { ControllerMixinMultipartForm } from '@lionrockjs/mixin-form';
+
+export default class ControllerAdminUser extends ControllerAdmin{
+  constructor(request: any) {
+    super(request, User, {roles: new Set(['admin'])});
+    this.state.get(ControllerMixinAdminTemplates.TEMPLATES)
+      .set('index', 'templates/admin/user/index')
+      .set('create', 'templates/admin/user/create')
+      .set('read', 'templates/admin/user/edit')
+      .set('edit', 'templates/admin/user/edit');
+  }
+
+  async action_index(){
+    const instances = this.state.get(ControllerMixinORMRead.INSTANCES);
+    await Promise.all(
+      instances.map((user: any) => user.eagerLoad({with: ['Person']}))
+    )
+
+    instances.forEach(
+      (user: any) => user.name = user.person.first_name + (user.person.last_name ? ` ${user.person.last_name}` : "")
+    );
+  }
+
+  async action_read(){
+    const user = this.state.get(ControllerMixinORMRead.INSTANCE);
+    await user.eagerLoad({with: ['Person']});
+
+    const database = this.state.get(ControllerMixinDatabase.DATABASES).get('admin')
+    user.identifiers = await ORM.readBy(IdentifierPassword.Model, 'user_id', [user.id], { database , asArray:true});
+  }
+
+  async action_create() {
+    const database = this.state.get(ControllerMixinDatabase.DATABASES).get('admin')
+    this.state.get(ControllerMixinView.TEMPLATE).data.roles = await ORM.readAll(Role, {database});
+  }
+
+  async action_create_post(){
+    this.state.set(ControllerMixinRegister.STATE_ALLOW_POST_ASSIGN_ROLE, true);
+    this.state.set(ControllerMixinAuth.IDENTIFIER, IdentifierPassword);
+    this.state.set(ControllerMixinAuth.IDENTIFIER_DATABASE_NAME, 'admin');
+    this.state.set(ControllerMixinAuth.DATABASE_NAME, 'admin');
+    await ControllerMixinRegister.action_register_post(this.state);
+
+
+    await (this as any).redirect('/admin/users');
+  }
+
+  async action_change_password_post(){
+    const {id} = this.state.get(ControllerState.PARAMS);
+    const $_POST = this.state.get(ControllerMixinMultipartForm.POST_DATA);
+    const database = this.state.get(ControllerMixinDatabase.DATABASES).get('admin')
+
+    const newPassword = $_POST['new-password'];
+
+    const identifierInstances = await ORM.readBy(IdentifierPassword.Model, 'user_id', [id], { database , asArray:true});
+
+    //check identifier exist
+    if (identifierInstances.length === 0){
+      throw new Error('No Password Identifier associate to this user.');
+    }
+
+    //update identifier record
+    await Promise.all(identifierInstances.map(async (it: any) => {
+      it.hash = await IdentifierPassword.hash(id, it.name, newPassword);
+      await it.write();
+    }));
+
+    await (this as any).redirect('/admin/users/' + id + '?msg=Password updated successfully.');
+  }
+
+  async onExit(){
+    if(this.state.get(ControllerState.STATUS) === 500 && this.state.get(ControllerState.ACTION) === 'create_post'){
+      await (this as any).redirect(`/login?msg=${(this as any).error.message}`);
+    }
+  }
+}

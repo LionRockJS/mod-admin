@@ -1,39 +1,38 @@
 {
   "type": "module",
   "name": "@lionrockjs/mod-admin",
-  "version": "0.0.61",
-  "description": "Admin features for LionRockJS ORM",
-  "main": "index.js",
+  "version": "0.0.3",
+  "description": "LionRockJS admin module",
+  "main": "classes/index.js",
+  "types": "types/index.d.ts",
   "scripts": {
-    "test": "node --experimental-vm-modules ../../../node_modules/jest/bin/jest.js --coverage"
-  },
-  "jest": {
-    "verbose": true,
-    "transform": {},
-    "testMatch": [
-      "**/__tests__/**/*.[jt]s?(x)",
-      "**/?(*.)+(spec|test).[jt]s?(x)",
-      "**/?(*.)+(spec|test).mjs"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "mjs"
-    ]
+    "test": "bun test",
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LionRockJS/mod-admin.git"
   },
+  "keywords": [
+    "LionRock",
+    "admin"
+  ],
   "author": "Kojin Nakana",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/LionRockJS/mod-admin/issues"
   },
-  "homepage": "https://github.com/LionRockJS/mod-admin",
+  "homepage": "https://github.com/LionRockJS/mod-admin#readme",
   "dependencies": {
     "camelize": "^1.0.1",
-    "csv-parse": "^6.1.0",
-    "decamelize": "^6.0.1"
+    "csv-parse": "^5.5.3",
+    "decamelize": "^6.0.0",
+    "pluralize": "^8.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.5",
+    "@types/pluralize": "^0.0.33"
   }
 }
