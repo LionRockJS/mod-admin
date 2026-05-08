@@ -3,7 +3,7 @@
   "name": "@lionrockjs/mod-admin",
   "version": "0.0.3",
   "description": "LionRockJS admin module",
-  "main": "classes/index.js",
+  "main": "dist/index.js",
   "types": "types/index.d.ts",
   "scripts": {
     "test": "bun test",
@@ -26,13 +26,13 @@
   "homepage": "https://github.com/LionRockJS/mod-admin#readme",
   "dependencies": {
     "camelize": "^1.0.1",
-    "csv-parse": "^5.5.3",
-    "decamelize": "^6.0.0",
+    "csv-parse": "^6.2.1",
+    "decamelize": "^6.0.1",
     "pluralize": "^8.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
-    "@types/node": "^20.10.5",
+    "typescript": "^6.0.3",
+    "@types/node": "^25.6.2",
     "@types/pluralize": "^0.0.33"
   }
 }
