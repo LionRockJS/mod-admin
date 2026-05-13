@@ -1,6 +1,12 @@
+import ConfigAdmin from './config/admin.mjs';
+import ConfigEdm from './config/edm.mjs';
+import ConfigRegister from './config/register.mjs';
 export default {
-    filename: import.meta.url,
-    configs: ['admin', 'edm', 'register']
+    configs: {
+        admin: ConfigAdmin,
+        edm: ConfigEdm,
+        register: ConfigRegister,
+    }
 };
 import ControllerAdmin from './ControllerAdmin.mjs';
 import HelperCRUD from './helper/CRUD.mjs';

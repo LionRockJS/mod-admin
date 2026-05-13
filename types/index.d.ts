@@ -1,6 +1,33 @@
 declare const _default: {
-    filename: string;
-    configs: string[];
+    configs: {
+        admin: {
+            logPath: string;
+        };
+        edm: {
+            mail: {
+                activateCode: {
+                    subject: Map<string, string>;
+                    text: Map<string, string>;
+                    html: Map<string, string>;
+                    landing: Map<string, string>;
+                };
+                resetPassword: {
+                    subject: Map<string, string>;
+                    text: Map<string, string>;
+                    html: Map<string, string>;
+                    landing: Map<string, string>;
+                };
+                username: {
+                    subject: Map<string, string>;
+                    text: Map<string, string>;
+                    html: Map<string, string>;
+                };
+            };
+        };
+        register: {
+            defaultRole: string;
+        };
+    };
 };
 export default _default;
 import ControllerAdmin from './ControllerAdmin.mjs';
