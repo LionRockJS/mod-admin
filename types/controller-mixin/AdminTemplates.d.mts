@@ -18,13 +18,13 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     } | {
         destination: any;
         checkpoint: any;
-        entityClass: any;
+        entityClass: typeof import("@lionrockjs/central").Model;
         entity: any;
         entityID: any;
     } | {
         destination: string;
         checkpoint?: undefined;
-        entityClass: any;
+        entityClass: typeof import("@lionrockjs/central").Model;
         entity: any;
         entityID: any;
     }>;
@@ -49,7 +49,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
             instance: any;
             model: any;
             foreign_key: any;
-            items: any[];
+            items: import("@lionrockjs/central").Model | import("@lionrockjs/central").Model[];
         }[];
     }>;
     static getBelongsToMany(state: Map<string, any>, instance: any): Promise<{
@@ -58,7 +58,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
         belongsToMany: {
             model: any;
             values: any;
-            items: any[];
+            items: import("@lionrockjs/central").Model | import("@lionrockjs/central").Model[];
         }[];
     }>;
     static getHasMany(state: Map<string, any>, instance: any): Promise<{
