@@ -47,7 +47,7 @@ export default class ControllerMixinImport extends ControllerMixin {
     const records = parse(text, state.get(this.PARSER_OPTIONS));
 
     if (records.length <= 1) throw new Error('no record in csv file');
-    const header = records.shift().map((it: any) => it.trim());
+    const header = (records.shift() as any[]).map((it: any) => it.trim());
 
     //process by csv handler
     const handler = state.get(this.IMPORT_CSV_HANDLER);
@@ -105,7 +105,7 @@ export default class ControllerMixinImport extends ControllerMixin {
     const duplicateRecords = await ORM.readBy(Model, uniqueKey, records.map((it: any) => it[uniqueKeyIndex]), {database, limit: 99999, asArray:true});
 
     const instanceMap = new Map();
-    duplicateRecords.forEach((it: any) => instanceMap.set(it[uniqueKey], it));
+    (duplicateRecords as any[]).forEach((it: any) => instanceMap.set(it[uniqueKey], it));
 
     const duplicatedCSVRecords = state.get(this.DUPLICATED_CSV_RECORDS);
     const createdCSVRecords = state.get(this.CREATED_CSV_RECORDS);

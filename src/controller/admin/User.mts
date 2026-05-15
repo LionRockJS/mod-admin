@@ -63,12 +63,12 @@ export default class ControllerAdminUser extends ControllerAdmin{
     const identifierInstances = await ORM.readBy(IdentifierPassword.Model, 'user_id', [id], { database , asArray:true});
 
     //check identifier exist
-    if (identifierInstances.length === 0){
+    if ((identifierInstances as any[]).length === 0){
       throw new Error('No Password Identifier associate to this user.');
     }
 
     //update identifier record
-    await Promise.all(identifierInstances.map(async (it: any) => {
+    await Promise.all((identifierInstances as any[]).map(async (it: any) => {
       it.hash = await IdentifierPassword.hash(id, it.name, newPassword);
       await it.write();
     }));

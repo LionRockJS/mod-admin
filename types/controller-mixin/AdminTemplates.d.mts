@@ -7,7 +7,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     static TEMPLATES: string;
     static DEFAULT_TEMPLATES: string;
     static init(state: Map<string, any>): void;
-    static after(state: Map<string, any>): void;
+    static after(state: Map<string, any>): Promise<void>;
     static classObject(Model: any): any;
     static listView(state: Map<string, any>, template: string, defaultTemplate: string): Promise<void>;
     static readView(state: Map<string, any>, template: string, defaultTemplate: string): Promise<void>;

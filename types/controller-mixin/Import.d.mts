@@ -11,7 +11,7 @@ export default class ControllerMixinImport extends ControllerMixin {
     static UPDATED_CSV_RECORDS: string;
     static init(state: Map<string, any>): void;
     static readCSV(state: Map<string, any>): Promise<{
-        header: any;
+        header: any[];
         records: unknown[];
     }>;
     static writeRecord(state: Map<string, any>, instance: any, csvRecord: any): Promise<void>;
