@@ -1,4 +1,4 @@
-import { Central, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView, ControllerMixinViewData, ControllerMixinActionLogger  } from '@lionrockjs/central';
+import { Central, ControllerMixinDatabase, ControllerMixinMime, ControllerMixinView, ControllerMixinViewState, ControllerMixinViewData, ControllerMixinActionLogger, ActionLoggerState  } from '@lionrockjs/central';
 import { Controller } from '@lionrockjs/mvc';
 import { ControllerMixinMultipartForm } from '@lionrockjs/mixin-form';
 import { ControllerMixinORMRead, ControllerMixinORMWrite, ControllerMixinORMInput, ControllerMixinORMDelete } from '@lionrockjs/mixin-orm';
@@ -41,10 +41,10 @@ export default class ControllerAdmin extends Controller {
     new Map([
       [ControllerMixinLoginRequire.REJECT_LANDING, options.rejectLanding || '/login'],
       [ControllerMixinLoginRequire.ALLOW_ROLES, options.roles || new Set(['admin', 'staff'])],
-      [ControllerMixinActionLogger.LOG_ACTIONS, options.log_actions || new Set(['update', 'delete', 'read', 'import', 'export', 'upload_post'])],
+      [ActionLoggerState.LOG_ACTIONS, options.log_actions || new Set(['update', 'delete', 'read', 'import', 'export', 'upload_post'])],
       [ControllerMixinORMRead.MODEL, model],
       [ControllerMixinORMRead.DATABASE_KEY, options.database || 'admin'],
-      [ControllerMixinView.LAYOUT_FILE, options.layout || 'layout/admin/default'],
+      [ControllerMixinViewState.LAYOUT_FILE, options.layout || 'layout/admin/default'],
     ]));
 
     this.options = { rejectLanding: '/login',

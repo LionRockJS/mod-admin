@@ -3,7 +3,7 @@ import pluralize from "pluralize";
 import camelize from "camelize";
 import decamelize from "decamelize";
 
-import { ControllerState, ControllerMixin, Central, ORM, ControllerMixinView, ControllerMixinDatabase } from '@lionrockjs/central';
+import { ControllerState, ControllerMixin, Central, ORM, ControllerMixinView, ControllerMixinViewState, ControllerMixinDatabase } from '@lionrockjs/central';
 import { ControllerMixinORMRead, ControllerMixinORMDelete } from '@lionrockjs/mixin-orm';
 import { ModelUser as User, ModelLogin as Login } from '@lionrockjs/mod-auth';
 
@@ -43,7 +43,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       name: session.user_meta.full_name,
     };
 
-    const template = state.get(ControllerMixinView.TEMPLATE);
+    const template = state.get(ControllerMixinViewState.TEMPLATE);
     if(template && template.data){
       Object.assign(
         template.data,
@@ -87,7 +87,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
         },
       }
     };
-    Object.assign(state.get(ControllerMixinView.LAYOUT).data, data);
+    Object.assign(state.get(ControllerMixinViewState.LAYOUT).data, data);
     ControllerMixinView.setTemplate(state, template, data, defaultTemplate);
   }
 
@@ -110,7 +110,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       ... await this.entitySupport(state),
     };
 
-    state.get(ControllerMixinView.LAYOUT).data.item = instance;
+    state.get(ControllerMixinViewState.LAYOUT).data.item = instance;
     ControllerMixinView.setTemplate(state, template, data, defaultTemplate);
   }
 
@@ -309,7 +309,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     }
 
     Object.assign(
-      state.get(ControllerMixinView.LAYOUT).data,
+      state.get(ControllerMixinViewState.LAYOUT).data,
       {
         model: this.classObject(state.get(ControllerMixinORMRead.MODEL)),
         controller: decamelize(client.constructor.name, {separator: '-'}),
@@ -328,7 +328,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
     const lastLogin = lastLogins[0];
 
     if (lastLogin) {
-      Object.assign(state.get(ControllerMixinView.LAYOUT).data, {
+      Object.assign(state.get(ControllerMixinViewState.LAYOUT).data, {
         last_login_date: lastLogin.created_at,
         last_login_ip: lastLogin.ip,
         ip: state.get(ControllerState.CLIENT_IP),
@@ -361,7 +361,7 @@ export default class ControllerMixinAdminTemplates extends ControllerMixin {
       ...await this.entitySupport(state),
     };
 
-    const layoutData = state.get(ControllerMixinView.LAYOUT).data;
+    const layoutData = state.get(ControllerMixinViewState.LAYOUT).data;
     layoutData.item = instance;
 
     ControllerMixinView.setTemplate(state, state.get(this.TEMPLATES).get('create'), data);

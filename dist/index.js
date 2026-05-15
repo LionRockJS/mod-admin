@@ -1,4 +1,5 @@
 import { Central } from '@lionrockjs/central';
+import routes from './routes.mjs';
 import ConfigAdmin from './config/admin.mjs';
 import ConfigEdm from './config/edm.mjs';
 import ConfigRegister from './config/register.mjs';
@@ -29,4 +30,4 @@ Central.controllerFiles.set('controller/Setup', ControllerSetup);
  *
  * @type {{ControllerAdmin: ControllerAdmin, HelperCRUD: HelperCRUD}}
  */
-export { ControllerAdmin, HelperCRUD, ControllerMixinExport, ControllerMixinUpload, ControllerMixinImport, ControllerMixinAdminTemplates, ControllerMixinCRUDRedirect, ControllerAdminHome, ControllerAdminUser, ControllerAdminUserRole, ControllerSetup };
+export { ControllerAdmin, HelperCRUD, ControllerMixinExport, ControllerMixinUpload, ControllerMixinImport, ControllerMixinAdminTemplates, ControllerMixinCRUDRedirect, ControllerAdminHome, ControllerAdminUser, ControllerAdminUserRole, ControllerSetup, routes };

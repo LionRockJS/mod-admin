@@ -2,7 +2,7 @@
  override ControllerAccount in @lionrockjs/mod-auth
 ***/
 
-import { ControllerMixinView } from '@lionrockjs/central';
+import { ControllerMixinView, ControllerMixinViewState } from '@lionrockjs/central';
 import { ControllerState, Controller } from '@lionrockjs/mvc';
 import { ControllerMixinAccount, ModelUser as User } from '@lionrockjs/mod-auth';
 import { ControllerMixinAccountPassword } from '@lionrockjs/adapter-auth-password';
@@ -27,7 +27,7 @@ export default class ControllerAccount extends ControllerAdmin {
     const {session} = this.state.get(ControllerState.REQUEST);
 
     Object.assign(
-      this.state.get(ControllerMixinView.TEMPLATE).data,
+      this.state.get(ControllerMixinViewState.TEMPLATE).data,
       {
         user_full_name: session.user_meta.full_name,
         user_id: session.user_id,

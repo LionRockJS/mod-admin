@@ -1,4 +1,5 @@
 import {Central} from '@lionrockjs/central';
+import routes from './routes.mjs';
 
 import ConfigAdmin from './config/admin.mjs';
 import ConfigEdm from './config/edm.mjs';
@@ -45,5 +46,6 @@ export {
   ControllerAdminHome,
   ControllerAdminUser,
   ControllerAdminUserRole,
-  ControllerSetup
+  ControllerSetup,
+  routes
 };

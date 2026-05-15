@@ -1,4 +1,4 @@
-import { Controller, ControllerMixin } from '@lionrockjs/central';
+import { ControllerMixin, ControllerState } from '@lionrockjs/central';
 export default class ControllerMixinCRUDRedirect extends ControllerMixin {
     static PATH_PREFIX = 'crudPathPrefix';
     static INSTANCE = 'instance';
@@ -12,8 +12,8 @@ export default class ControllerMixinCRUDRedirect extends ControllerMixin {
             state.set(this.REDIRECT_WITH_QUERY, true);
     }
     static async action_update(state) {
-        const { params } = state.get(Controller.STATE_REQUEST);
-        const checkpoint = state.get(Controller.STATE_CHECKPOINT);
+        const { params } = state.get(ControllerState.REQUEST);
+        const checkpoint = state.get(ControllerState.CHECKPOINT);
         const id = params.id || state.get(this.INSTANCE)?.id || '';
         const pathPrefix = state.get(this.PATH_PREFIX);
         const model = state.get(this.MODEL);
@@ -23,7 +23,7 @@ export default class ControllerMixinCRUDRedirect extends ControllerMixin {
         state.set(this.REDIRECT, destination);
     }
     static async action_delete(state) {
-        const query = state.get(Controller.STATE_QUERY);
+        const query = state.get(ControllerState.QUERY);
         const model = state.get(this.MODEL);
         if (!query.confirm)
             return;
@@ -37,7 +37,7 @@ export default class ControllerMixinCRUDRedirect extends ControllerMixin {
     static async after(state) {
         if (!state.get(this.REDIRECT))
             return;
-        const client = state.get(Controller.STATE_CLIENT);
+        const client = state.get(ControllerState.CLIENT);
         await client.redirect(state.get(this.REDIRECT), state.get(this.REDIRECT_WITH_QUERY));
     }
 }

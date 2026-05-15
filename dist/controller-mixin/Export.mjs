@@ -1,5 +1,5 @@
 import { ControllerMixinORMRead } from '@lionrockjs/mixin-orm';
-import { ControllerMixinView, ControllerMixin, Controller, View } from '@lionrockjs/central';
+import { ControllerMixinView, ControllerMixin, ControllerState, View } from '@lionrockjs/central';
 export default class ControllerMixinExport extends ControllerMixin {
     static COLUMNS = 'export_columns'; // columns as map, key is instance field, value is export header. Need to manually set the export columns to prevent export sensitive data.
     static EAGER_LOAD_FUNCTION = 'export_eager_load';
@@ -17,7 +17,7 @@ export default class ControllerMixinExport extends ControllerMixin {
     }
     static async action_export(state) {
         // set response header
-        const headers = state.get(Controller.STATE_HEADERS);
+        const headers = state.get(ControllerState.HEADERS);
         headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
         headers['Pragma'] = 'no-cache';
         headers['Expires'] = '0';
@@ -62,7 +62,7 @@ export default class ControllerMixinExport extends ControllerMixin {
         // Add CSV header
         rows.unshift([...columns.values()].map((x) => (typeof x === 'string') ? `"=""${x}"""` : x).join(','));
         // Add BOM
-        state.set(Controller.STATE_BODY, '\ufeff' + rows.join('\n'));
-        ControllerMixinView.setLayout(state, new View("", state.get(Controller.STATE_BODY)));
+        state.set(ControllerState.BODY, '\ufeff' + rows.join('\n'));
+        ControllerMixinView.setLayout(state, new View("", state.get(ControllerState.BODY)));
     }
 }

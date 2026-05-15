@@ -1,3 +1,4 @@
+import routes from './routes.mjs';
 declare const _default: {
     configs: {
         admin: {
@@ -45,4 +46,4 @@ import ControllerSetup from './controller/Setup.mjs';
  *
  * @type {{ControllerAdmin: ControllerAdmin, HelperCRUD: HelperCRUD}}
  */
-export { ControllerAdmin, HelperCRUD, ControllerMixinExport, ControllerMixinUpload, ControllerMixinImport, ControllerMixinAdminTemplates, ControllerMixinCRUDRedirect, ControllerAdminHome, ControllerAdminUser, ControllerAdminUserRole, ControllerSetup };
+export { ControllerAdmin, HelperCRUD, ControllerMixinExport, ControllerMixinUpload, ControllerMixinImport, ControllerMixinAdminTemplates, ControllerMixinCRUDRedirect, ControllerAdminHome, ControllerAdminUser, ControllerAdminUserRole, ControllerSetup, routes };

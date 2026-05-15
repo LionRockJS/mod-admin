@@ -9,7 +9,7 @@ export default class ControllerMixinUpload extends ControllerMixin {
   static UPLOAD_FOLDER = 'uploadFolder'
 
   static init(state: Map<string, any>) {
-    state.set(this.UPLOAD_FOLDER, path.normalize(`${Central.EXE_PATH}/../public/media/upload`));
+    state.set(this.UPLOAD_FOLDER, path.normalize(`${(Central as any).EXE_PATH}/../public/media/upload`));
   }
 
   static async action_upload_post(state: Map<string, any>){

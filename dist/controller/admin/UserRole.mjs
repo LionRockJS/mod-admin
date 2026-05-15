@@ -1,4 +1,4 @@
-import { ControllerMixinDatabase, ControllerMixinView, ORM } from '@lionrockjs/central';
+import { ControllerMixinDatabase, ControllerMixinViewState, ORM } from '@lionrockjs/central';
 import { ControllerState } from '@lionrockjs/mvc';
 import { ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
 import { ControllerMixinORMRead } from '@lionrockjs/mixin-orm';
@@ -46,7 +46,7 @@ export default class ControllerAdminUserRole extends ControllerAdmin {
                 `User #${user.id}`;
         });
         // Add to template data
-        const template = this.state.get(ControllerMixinView.TEMPLATE);
+        const template = this.state.get(ControllerMixinViewState.TEMPLATE);
         if (!template.data.belongsToMany) {
             template.data.belongsToMany = [];
         }

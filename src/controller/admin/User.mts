@@ -1,4 +1,4 @@
-import { ControllerMixinDatabase, ControllerMixinView, ORM } from '@lionrockjs/central';
+import { ControllerMixinDatabase, ControllerMixinView, ControllerMixinViewState, ORM } from '@lionrockjs/central';
 import { ControllerState, Controller } from '@lionrockjs/mvc';
 import { ControllerMixinAuth, ControllerMixinRegister, ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
 import { IdentifierPassword } from '@lionrockjs/adapter-auth-password';
@@ -39,12 +39,11 @@ export default class ControllerAdminUser extends ControllerAdmin{
 
   async action_create() {
     const database = this.state.get(ControllerMixinDatabase.DATABASES).get('admin')
-    this.state.get(ControllerMixinView.TEMPLATE).data.roles = await ORM.readAll(Role, {database});
+    this.state.get(ControllerMixinViewState.TEMPLATE).data.roles = await ORM.readAll(Role, {database});
   }
 
   async action_create_post(){
     this.state.set(ControllerMixinRegister.STATE_ALLOW_POST_ASSIGN_ROLE, true);
-    this.state.set(ControllerMixinAuth.IDENTIFIER, IdentifierPassword);
     this.state.set(ControllerMixinAuth.IDENTIFIER_DATABASE_NAME, 'admin');
     this.state.set(ControllerMixinAuth.DATABASE_NAME, 'admin');
     await ControllerMixinRegister.action_register_post(this.state);

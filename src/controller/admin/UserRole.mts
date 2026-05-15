@@ -1,4 +1,4 @@
-import { ControllerMixinDatabase, ControllerMixinView, ORM } from '@lionrockjs/central';
+import { ControllerMixinDatabase, ControllerMixinView, ControllerMixinViewState, ORM } from '@lionrockjs/central';
 import { ControllerState, Controller } from '@lionrockjs/mvc';
 import { ModelUser as User, ModelRole as Role } from '@lionrockjs/mod-auth';
 import { ControllerMixinORMRead } from '@lionrockjs/mixin-orm';
@@ -40,7 +40,7 @@ export default class ControllerAdminUserRole extends ControllerAdmin{
 
   async loadRoleUsers(role: any, database: any){
     // Get all available users
-    const allUsers = await ORM.readAll(User, {database, asArray: true});
+    const allUsers = await ORM.readAll(User, {database, asArray: true}) as any[];
     
     // Load person data for display
     await Promise.all(allUsers.map((user: any) => user.eagerLoad({with: ['Person']})));
@@ -60,7 +60,7 @@ export default class ControllerAdminUserRole extends ControllerAdmin{
     });
     
     // Add to template data
-    const template = this.state.get(ControllerMixinView.TEMPLATE);
+    const template = this.state.get(ControllerMixinViewState.TEMPLATE);
     if (!template.data.belongsToMany) {
       template.data.belongsToMany = [];
     }
