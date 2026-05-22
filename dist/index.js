@@ -26,6 +26,9 @@ import ControllerSetup from './controller/Setup.mjs';
 Central.controllerFiles.set('controller/Home', ControllerHome);
 Central.controllerFiles.set('controller/Account', ControllerAccount);
 Central.controllerFiles.set('controller/Setup', ControllerSetup);
+Central.controllerFiles.set('controller/admin/Home', ControllerAdminHome);
+Central.controllerFiles.set('controller/admin/User', ControllerAdminUser);
+Central.controllerFiles.set('controller/admin/UserRole', ControllerAdminUserRole);
 /**
  *
  * @type {{ControllerAdmin: ControllerAdmin, HelperCRUD: HelperCRUD}}
